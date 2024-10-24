@@ -1,38 +1,39 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import { UiInput } from "../../uiComponents/UiInput";
+import UiBtn from "../../uiComponents/UiBtn";
 
-const InputTask = ({ handleAddTask }) => {
+const InputMeet = ({ handleAddMeet }) => {
   const [inputValue, setInputValue] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!inputValue) return;
-    handleAddTask(inputValue);
+    if (!inputValue.trim()) return;
+    handleAddMeet(inputValue);
     setInputValue("");
   };
 
   return (
     <Form onSubmit={handleSubmit}>
-      <Input
+      <UiInput
         type="text"
         value={inputValue}
+        placeholder="회의를 추가하세요"
         onChange={(e) => setInputValue(e.target.value)}
+        width="84%"
       />
-      <AddBtn type="submit">추가하기</AddBtn>
+      <UiBtn type="submit">추가</UiBtn>
     </Form>
   );
 };
 
-export default InputTask;
+export default InputMeet;
 
 // style
 const Form = styled.form`
+  width: 100%;
   margin-bottom: 2rem;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  justify-content: space-between;
 `;
-const Input = styled.input`
-  padding: 0.25rem 1rem;
-`;
-const AddBtn = styled.button``;

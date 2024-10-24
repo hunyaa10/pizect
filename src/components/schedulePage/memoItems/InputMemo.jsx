@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import { UiInput } from "../../uiComponents/UiInput";
+import UiBtn from "../../uiComponents/UiBtn";
 
 const InputMemo = ({ handleAddMemo }) => {
   const [titleValue, setTitleValue] = useState("");
@@ -7,7 +9,7 @@ const InputMemo = ({ handleAddMemo }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!titleValue) return;
+    if (!titleValue.trim()) return;
     handleAddMemo(titleValue, scriptValue);
     setTitleValue("");
     setScriptValue("");
@@ -17,12 +19,13 @@ const InputMemo = ({ handleAddMemo }) => {
     <Form onSubmit={handleSubmit}>
       <InputBox>
         <Label htmlFor="title">제목</Label>
-        <Input
+        <UiInput
           id="title"
           type="text"
           value={titleValue}
           onChange={(e) => setTitleValue(e.target.value)}
-          required
+          width={"90%"}
+          placeholder="제목을 입력하세요"
         />
       </InputBox>
       <InputBox>
@@ -31,9 +34,12 @@ const InputMemo = ({ handleAddMemo }) => {
           id="script"
           value={scriptValue}
           onChange={(e) => setScriptValue(e.target.value)}
+          placeholder="메모를 입력하세요"
         />
       </InputBox>
-      <Btn type="submit">공지등록하기</Btn>
+      <UiBtn type="submit" margin="1rem 0 0 2rem">
+        공지등록하기
+      </UiBtn>
     </Form>
   );
 };
@@ -55,17 +61,21 @@ const InputBox = styled.div`
   justify-content: space-between;
 `;
 const Label = styled.label`
-  font-size: 0.8rem;
-`;
-const Input = styled.input`
-  width: 90%;
-  padding: 0.25rem 0.5rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #3d7685;
 `;
 const Textarea = styled.textarea`
   width: 90%;
   height: 40vh;
   padding: 0.5rem;
-`;
-const Btn = styled.button`
-  margin: 1rem 0 0 2rem;
+  border: 1px solid #c2cfd2;
+  border-radius: 0.25rem;
+  &:focus {
+    outline: none;
+    border: 1px solid #61797f;
+  }
+  &::placeholder {
+    color: #ccc;
+  }
 `;

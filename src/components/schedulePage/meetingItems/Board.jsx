@@ -10,9 +10,9 @@ const Board = ({ meets }) => {
   return (
     <SortableContext items={meets} strategy={verticalListSortingStrategy}>
       <BoardUl>
-        {meets.map((meet) => (
-          <MeetingList key={meet.id} id={meet.id} meet={meet.meet} />
-        ))}
+        {meets.map((meet) => {
+          return <MeetingList key={meet.id} id={meet.id} text={meet.text} />;
+        })}
       </BoardUl>
     </SortableContext>
   );
