@@ -11,7 +11,12 @@ const MemoBoard = ({ memos }) => {
     <SortableContext items={memos} strategy={verticalListSortingStrategy}>
       <BoardUl>
         {memos.map((memo) => (
-          <MemoList key={memo.id} id={memo.id} title={memo.title} />
+          <MemoList
+            key={memo.id}
+            id={memo.id}
+            title={memo.title}
+            script={memo.script}
+          />
         ))}
       </BoardUl>
     </SortableContext>

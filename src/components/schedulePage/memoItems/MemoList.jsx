@@ -1,9 +1,32 @@
+import { useState } from "react";
 import useSortableList from "../../../hooks/useSortableList";
+import ListModal from "./ListModal";
 
-const MemoList = ({ id, title, showCheckbox = false }) => {
-  const { ListItem } = useSortableList(id, title, showCheckbox);
+const MemoList = ({ id, title, script }) => {
+  const [showModal, setShowModal] = useState(false);
 
-  return ListItem;
+  // 모달창 이벤트함수
+  const handleOpenModal = () => {
+    setShowModal(true);
+  };
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
+
+  const { ListItem } = useSortableList(id, title, handleOpenModal);
+
+  return (
+    <>
+      {ListItem}
+      {showModal && (
+        <ListModal
+          handleCloseModal={handleCloseModal}
+          title={title}
+          script={script}
+        />
+      )}
+    </>
+  );
 };
 
 export default MemoList;

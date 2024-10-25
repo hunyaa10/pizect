@@ -1,7 +1,7 @@
 import useSortableList from "../../../hooks/useSortableList";
 
-const MeetingList = ({ id, text, showCheckbox = true }) => {
-  const { ListItem } = useSortableList(id, text, showCheckbox);
+const MeetingList = ({ id, text }) => {
+  const { ListItem } = useSortableList(id, text);
 
   return ListItem;
 };
