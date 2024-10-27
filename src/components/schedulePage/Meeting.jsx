@@ -16,7 +16,7 @@ const Meeting = () => {
 
   // 새 회의 추가
   const handleAddMeet = (text) => {
-    setMeets((meets) => [...meets, { id: meets.length + 1, text }]);
+    setMeets((meets) => [{ id: meets.length + 1, text }, ...meets]);
   };
   // console.log(meets);
 

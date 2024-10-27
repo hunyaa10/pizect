@@ -20,7 +20,7 @@ const Members = () => {
   }, []);
   console.log(datas);
 
-  const names = datas.map((member) => member.name);
+  const names = datas.map((data) => data.name);
 
   // 팀장변경
   const handleLeader = (id) => {
@@ -30,19 +30,19 @@ const Members = () => {
   // 작업추가
   const handleAddWork = (work, memberId) => {
     if (work.trim()) {
-      setDatas((prevDatas) =>
-        prevDatas.map((member) => {
-          if (member.id === memberId) {
+      setDatas((prev) =>
+        prev.map((data) => {
+          if (data.id === memberId) {
             const newWork = {
-              id: `w${member.works.length + 1}`,
+              id: `w${data.works.length + 1}`,
               work: work,
             };
             return {
-              ...member,
-              works: [...member.works, newWork],
+              ...data,
+              works: [newWork, ...data.works],
             };
           }
-          return member;
+          return data;
         })
       );
     }
@@ -50,15 +50,15 @@ const Members = () => {
 
   // 작업삭제
   const handleRemoveWork = (memberId, listId) => {
-    setDatas((prevDatas) =>
-      prevDatas.map((member) => {
-        if (member.id === memberId) {
+    setDatas((prev) =>
+      prev.map((data) => {
+        if (data.id === memberId) {
           return {
-            ...member,
-            works: member.works.filter((work) => work.id !== listId),
+            ...data,
+            works: data.works.filter((work) => work.id !== listId),
           };
         }
-        return member;
+        return data;
       })
     );
   };
@@ -72,7 +72,7 @@ const Members = () => {
         works: [],
       };
 
-      setDatas((prevDatas) => [...prevDatas, newMember]);
+      setDatas((prev) => [...prev, newMember]);
     }
   };
 
