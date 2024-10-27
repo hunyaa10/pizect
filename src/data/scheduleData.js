@@ -1,8 +1,8 @@
 export const meetingData = [
-  { id: 1, text: "10/23 오후1시 FE회의" },
-  { id: 2, text: "10/23 오후2시 전체회의" },
-  { id: 3, text: "10/23 오후8시30분 FE중간피드백" },
-  { id: 4, text: "10/14 오전11시 첫 회의" },
+  { id: 1, date: "10/23", text: "오후1시 FE회의" },
+  { id: 2, date: "10/23", text: "오후2시 전체회의" },
+  { id: 3, date: "10/23", text: "오후8시30분 FE중간피드백" },
+  { id: 4, date: "10/14", text: "오전11시 첫 회의" },
 ];
 
 export const memoData = [

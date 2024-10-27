@@ -4,9 +4,11 @@ export const UiInput = ({
   id,
   type = "text",
   value,
+  onClick,
   onChange,
   placeholder,
   width = "100%",
+  readOnly = false,
 }) => {
   return (
     <Input
@@ -14,8 +16,10 @@ export const UiInput = ({
       type={type}
       placeholder={placeholder}
       value={value}
+      onClick={onClick}
       onChange={onChange}
       width={width}
+      readOnly={readOnly}
     />
   );
 };
@@ -32,5 +36,13 @@ const Input = styled.input`
   }
   &::placeholder {
     color: #ccc;
+  }
+  &[readOnly] {
+    cursor: pointer;
+    background-color: #bdd8df;
+    border: 1px solid #bdd8df;
+    &::placeholder {
+      color: #fff;
+    }
   }
 `;

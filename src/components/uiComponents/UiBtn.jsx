@@ -5,10 +5,10 @@ const UiBtn = ({
   onClick,
   children,
   margin = "0",
-  bgcolor = "#3d7685",
+  $bgcolor = "#3d7685",
 }) => {
   return (
-    <Btn type={type} onClick={onClick} $margin={margin} bgcolor={bgcolor}>
+    <Btn type={type} onClick={onClick} $margin={margin} $bgcolor={$bgcolor}>
       {children}
     </Btn>
   );
@@ -22,7 +22,7 @@ const Btn = styled.button`
   padding: 0.25rem 0.5rem;
   border: none;
   border-radius: 0.25rem;
-  background-color: ${(props) => props.bgcolor};
+  background-color: ${(props) => props.$bgcolor};
   color: #fff;
   font-size: 0.8rem;
   font-weight: 500;

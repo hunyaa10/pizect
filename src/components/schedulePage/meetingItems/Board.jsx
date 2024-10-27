@@ -15,6 +15,7 @@ const Board = ({ meets, handleDeleteMeet }) => {
             <MeetingList
               key={meet.id}
               id={meet.id}
+              date={meet.date}
               text={meet.text}
               handleDeleteMeet={handleDeleteMeet}
             />

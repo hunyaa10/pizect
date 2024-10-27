@@ -15,8 +15,8 @@ const Meeting = () => {
   const { handleDragEnd } = useDragAndDrop(meets, setMeets);
 
   // 새 회의 추가
-  const handleAddMeet = (text) => {
-    setMeets((meets) => [{ id: meets.length + 1, text }, ...meets]);
+  const handleAddMeet = ({ date, text }) => {
+    setMeets((meets) => [{ id: meets.length + 1, date, text }, ...meets]);
   };
   // console.log(meets);
 

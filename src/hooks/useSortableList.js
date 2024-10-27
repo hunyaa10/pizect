@@ -3,7 +3,7 @@ import { CSS } from "@dnd-kit/utilities";
 import React, { useEffect, useState } from "react";
 import UiList from "../components/uiComponents/UiList";
 
-const useSortableList = (id, text, onClick, handleRemoveFn, memberId) => {
+const useSortableList = (id, text, onClick, handleRemoveFn, memberId, date) => {
   const [isChecked, setIsChecked] = useState(false);
   const [menuVisible, setMenuVisible] = useState(false);
   const { attributes, listeners, setNodeRef, transform, transition } =
@@ -57,6 +57,7 @@ const useSortableList = (id, text, onClick, handleRemoveFn, memberId) => {
       listeners={listeners}
       handleContextMenu={handleContextMenu}
       isChecked={isChecked}
+      date={date}
       text={text}
       onClick={onClick}
       menuVisible={menuVisible}

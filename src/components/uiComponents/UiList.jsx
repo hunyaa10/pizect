@@ -8,6 +8,7 @@ const UiList = ({
   listeners,
   handleContextMenu,
   isChecked,
+  date,
   text,
   onClick,
   menuVisible,
@@ -20,17 +21,15 @@ const UiList = ({
       style={sortableStyle}
       onContextMenu={handleContextMenu}
     >
-      <Text $isChecked={isChecked} onClick={onClick || handleComplete}>
-        {text}
-      </Text>
+      <TextBox onClick={onClick || handleComplete}>
+        {date && <Date $isChecked={isChecked}>{date}</Date>}
+        <Text $isChecked={isChecked}>{text}</Text>
+      </TextBox>
       <MoveIcon {...attributes} {...listeners}>
         <Icon src={GridDotIcon} alt="grid-dot3-icon" />
       </MoveIcon>
       {menuVisible && (
         <ContextMenu>
-          {/* <MenuItem onClick={handleComplete}>
-            {isChecked ? "작업완료해제" : "작업완료"}
-          </MenuItem> */}
           <MenuItem onClick={handleDelete}>삭제</MenuItem>
         </ContextMenu>
       )}
@@ -43,7 +42,7 @@ export default UiList;
 // style
 const List = styled.li`
   width: 100%;
-  padding: 0.5rem 0.3rem 0.5rem 1rem;
+  padding: 0.5rem 0.3rem 0.5rem 0.5rem;
   background-color: #fff;
   border-radius: 0.2rem;
   box-shadow: rgba(0, 0, 0, 0.16) 0 1px 4px;
@@ -59,15 +58,26 @@ const MoveIcon = styled.div`
 const Icon = styled.img`
   width: 8px;
 `;
-const Text = styled.p`
+const TextBox = styled.div`
   width: 95%;
-  text-decoration: ${({ $isChecked }) =>
-    $isChecked ? "line-through" : "none"};
-  color: ${({ $isChecked }) => ($isChecked ? "#ccc" : "#333")};
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+
   cursor: pointer;
   &:hover {
     opacity: 0.7;
   }
+`;
+const Text = styled.p`
+  text-decoration: ${({ $isChecked }) =>
+    $isChecked ? "line-through" : "none"};
+  color: ${({ $isChecked }) => ($isChecked ? "#ccc" : "#333")};
+`;
+const Date = styled.span`
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: ${({ $isChecked }) => ($isChecked ? "#ccc" : "#666")};
 `;
 const ContextMenu = styled.div`
   position: absolute;
