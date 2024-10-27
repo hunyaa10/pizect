@@ -10,6 +10,7 @@ const useDragAndDrop = (state, setState) => {
   const handleDragEnd = useCallback(
     (e) => {
       const { active, over } = e;
+      // console.log(active.id, over.id);
 
       if (!over) return;
       if (active.id === over.id) return;
@@ -17,7 +18,8 @@ const useDragAndDrop = (state, setState) => {
       setState((prevState) => {
         const originalPosition = getTaskPosition(active.id);
         const newPosition = getTaskPosition(over.id);
-        return arrayMove(prevState, originalPosition, newPosition);
+        const newState = arrayMove(prevState, originalPosition, newPosition);
+        return newState;
       });
     },
     [getTaskPosition, setState]

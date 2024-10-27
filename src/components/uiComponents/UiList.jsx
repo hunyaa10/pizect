@@ -76,7 +76,7 @@ const ContextMenu = styled.div`
   background: white;
   box-shadow: rgba(0, 0, 0, 0.16) 0 1px 4px;
   border-radius: 0.2rem;
-  z-index: 1000;
+  z-index: 99;
 `;
 
 const MenuItem = styled.div`
