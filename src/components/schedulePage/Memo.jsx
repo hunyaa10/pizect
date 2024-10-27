@@ -19,6 +19,11 @@ const Memo = () => {
     setMemos((memos) => [...memos, { id: memos.length + 1, title, script }]);
   };
 
+  // 메모 삭제
+  const handleDeleteMemo = (id) => {
+    setMemos((prev) => prev.filter((memo) => memo.id !== id));
+  };
+
   return (
     <MemoBox>
       <UiTitle>공지사항</UiTitle>
@@ -28,7 +33,7 @@ const Memo = () => {
         onDragEnd={handleDragEnd}
       >
         <BoardBox>
-          <MemoBoard memos={memos} />
+          <MemoBoard memos={memos} handleDeleteMemo={handleDeleteMemo} />
           <InputMemo handleAddMemo={handleAddMemo} />
         </BoardBox>
       </DndContext>

@@ -18,6 +18,12 @@ const Meeting = () => {
   const handleAddMeet = (text) => {
     setMeets((meets) => [...meets, { id: meets.length + 1, text }]);
   };
+  // console.log(meets);
+
+  // 회의 삭제
+  const handleDeleteMeet = (id) => {
+    setMeets((prev) => prev.filter((meet) => meet.id !== id));
+  };
 
   return (
     <MeetingBox>
@@ -28,7 +34,7 @@ const Meeting = () => {
         onDragEnd={handleDragEnd}
       >
         <InputMeet handleAddMeet={handleAddMeet} />
-        <Board meets={meets} />
+        <Board meets={meets} handleDeleteMeet={handleDeleteMeet} />
       </DndContext>
     </MeetingBox>
   );

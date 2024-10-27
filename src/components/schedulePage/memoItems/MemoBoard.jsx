@@ -6,7 +6,7 @@ import {
 } from "@dnd-kit/sortable";
 import MemoList from "./MemoList";
 
-const MemoBoard = ({ memos }) => {
+const MemoBoard = ({ memos, handleDeleteMemo }) => {
   return (
     <SortableContext items={memos} strategy={verticalListSortingStrategy}>
       <BoardUl>
@@ -16,6 +16,7 @@ const MemoBoard = ({ memos }) => {
             id={memo.id}
             title={memo.title}
             script={memo.script}
+            handleDeleteMemo={handleDeleteMemo}
           />
         ))}
       </BoardUl>

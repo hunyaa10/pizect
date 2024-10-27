@@ -11,6 +11,7 @@ const useDragAndDrop = (state, setState) => {
     (e) => {
       const { active, over } = e;
 
+      if (!over) return;
       if (active.id === over.id) return;
 
       setState((prevState) => {

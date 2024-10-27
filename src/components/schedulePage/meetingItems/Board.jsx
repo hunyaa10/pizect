@@ -6,12 +6,19 @@ import React from "react";
 import styled from "styled-components";
 import MeetingList from "./MeetingList";
 
-const Board = ({ meets }) => {
+const Board = ({ meets, handleDeleteMeet }) => {
   return (
     <SortableContext items={meets} strategy={verticalListSortingStrategy}>
       <BoardUl>
         {meets.map((meet) => {
-          return <MeetingList key={meet.id} id={meet.id} text={meet.text} />;
+          return (
+            <MeetingList
+              key={meet.id}
+              id={meet.id}
+              text={meet.text}
+              handleDeleteMeet={handleDeleteMeet}
+            />
+          );
         })}
       </BoardUl>
     </SortableContext>

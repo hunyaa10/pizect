@@ -18,7 +18,7 @@ export default Notice;
 const Wrapper = styled.div`
   width: 85vw;
   float: right;
-  padding: 10vh 3rem 0;
+  padding: 10vh 2rem 0 2rem;
   display: flex;
-  justify-content: space-between;
+  gap: 2rem;
 `;
