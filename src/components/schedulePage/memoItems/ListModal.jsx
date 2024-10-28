@@ -10,7 +10,11 @@ const ListModal = ({ handleCloseModal, title, script }) => {
           <Icon src={CloseIcon} alt="x-icon" />
         </CloseBtn>
         <Title>{title}</Title>
-        <Script>{script}</Script>
+        <ScriptBox>
+          {script.map((line, idx) => (
+            <Script key={idx}>{line}</Script>
+          ))}
+        </ScriptBox>
       </Modal>
     </Wrapper>
   );
@@ -70,6 +74,10 @@ const Title = styled.h3`
   text-align: center;
   margin-bottom: 1.5rem;
   border-bottom: 1px solid #ececec;
+`;
+const ScriptBox = styled.div`
+  display: flex;
+  flex-direction: column;
 `;
 const Script = styled.p`
   padding: 0 1rem;
