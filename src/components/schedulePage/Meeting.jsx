@@ -1,15 +1,16 @@
 import { closestCorners, DndContext } from "@dnd-kit/core";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Board from "./meetingItems/Board";
 import InputMeet from "./meetingItems/InputMeet";
 import useDragSensors from "../../hooks/useDragSensors";
 import useDragAndDrop from "../../hooks/useDragAndDrop";
-import { meetingData } from "../../data/scheduleData";
 import { UiTitle } from "../uiComponents/UiTitle";
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "../../firebase";
 
 const Meeting = () => {
-  const [meets, setMeets] = useState(meetingData);
+  const [meets, setMeets] = useState([]);
 
   const sensors = useDragSensors();
   const { handleDragEnd } = useDragAndDrop(meets, setMeets);
@@ -18,12 +19,30 @@ const Meeting = () => {
   const handleAddMeet = ({ date, text }) => {
     setMeets((meets) => [{ id: meets.length + 1, date, text }, ...meets]);
   };
-  // console.log(meets);
 
   // 회의 삭제
   const handleDeleteMeet = (id) => {
     setMeets((prev) => prev.filter((meet) => meet.id !== id));
   };
+
+  // meetings 데이터 가져오기
+  const fetchMeetings = async () => {
+    try {
+      const meetingsCollection = collection(db, "meetings");
+      const meetingDocs = await getDocs(meetingsCollection);
+      const data = meetingDocs.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setMeets(data);
+      // console.log(data);
+    } catch (e) {
+      console.log("meetings 데이터를 불러오는데 실패했습니다. ", e);
+    }
+  };
+  useEffect(() => {
+    fetchMeetings();
+  }, []);
 
   return (
     <MeetingBox>

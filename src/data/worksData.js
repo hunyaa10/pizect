@@ -1,4 +1,7 @@
-export const workData = [
+import { db } from "../firebase";
+import { collection, doc, setDoc, getDoc } from "firebase/firestore";
+
+const workData = [
   {
     id: 1,
     name: "하수현",
@@ -33,3 +36,30 @@ export const workData = [
     works: [{ id: "w1", work: "관리자페이지: 도표, 차트 등 사용예정" }],
   },
 ];
+
+// 작업데이터 등록
+const addWorkDataToFirestore = async () => {
+  const workCollection = collection(db, "works");
+
+  try {
+    for (const worker of workData) {
+      const workerDocRef = doc(workCollection, worker.id.toString());
+      const docSnapshot = await getDoc(workerDocRef);
+
+      if (!docSnapshot.exists()) {
+        await setDoc(workerDocRef, {
+          name: worker.name,
+          works: worker.works,
+        });
+        console.log(`작업자 ${worker.name}의 데이터가 추가되었습니다.`);
+      } else {
+        console.log(`모든 작업자의 데이터가 이미 존재합니다.`);
+      }
+    }
+    console.log("모든 작업자 데이터 등록성공");
+  } catch (e) {
+    console.error("작업자 데이터 등록실패: ", e.message);
+  }
+};
+
+addWorkDataToFirestore();

@@ -1,15 +1,16 @@
 import { closestCorners, DndContext } from "@dnd-kit/core";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import MemoBoard from "./memoItems/MemoBoard";
 import InputMemo from "./memoItems/InputMemo";
 import useDragSensors from "../../hooks/useDragSensors";
 import useDragAndDrop from "../../hooks/useDragAndDrop";
-import { memoData } from "../../data/scheduleData";
 import { UiTitle } from "../uiComponents/UiTitle";
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "../../firebase";
 
 const Memo = () => {
-  const [memos, setMemos] = useState(memoData);
+  const [memos, setMemos] = useState([]);
 
   const sensors = useDragSensors();
   const { handleDragEnd } = useDragAndDrop(memos, setMemos);
@@ -23,6 +24,25 @@ const Memo = () => {
   const handleDeleteMemo = (id) => {
     setMemos((prev) => prev.filter((memo) => memo.id !== id));
   };
+
+  // memos 데이터 가져오기
+  const fetchMemos = async () => {
+    try {
+      const memosCollection = collection(db, "memos");
+      const memosDocs = await getDocs(memosCollection);
+      const data = memosDocs.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setMemos(data);
+      // console.log(data);
+    } catch (e) {
+      console.log("memos 데이터를 불러오는데 실패했습니다. ", e);
+    }
+  };
+  useEffect(() => {
+    fetchMemos();
+  }, []);
 
   return (
     <MemoBox>

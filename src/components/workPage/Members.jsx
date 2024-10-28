@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { workData } from "../../data/worksData";
 import useDragSensors from "../../hooks/useDragSensors";
 import styled from "styled-components";
 import { closestCorners, DndContext } from "@dnd-kit/core";
@@ -9,19 +8,14 @@ import MemberHeader from "./MemberHeader";
 
 import CrownIcon from "../../icon/crown.svg";
 import DelModal from "./DelModal";
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "../../firebase";
 
 const Members = () => {
   const [datas, setDatas] = useState([]);
   const [leaderId, setLeaderId] = useState(1);
   const [showDelModal, setShowDelModal] = useState(false);
   const [memberToDel, setMemberToDel] = useState(null);
-
-  useEffect(() => {
-    setDatas(workData);
-  }, []);
-  // console.log(datas);
-
-  const names = datas.map((data) => data.name);
 
   // 팀장변경
   const handleLeader = (id) => {
@@ -118,6 +112,26 @@ const Members = () => {
       );
     }
   };
+
+  // works 데이터 가져오기
+  const fetchWorks = async () => {
+    try {
+      const worksCollection = collection(db, "works");
+      const worksDocs = await getDocs(worksCollection);
+      const data = worksDocs.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setDatas(data);
+    } catch (e) {
+      console.log("works 데이터를 불러오는데 실패했습니다. ", e);
+    }
+  };
+  useEffect(() => {
+    fetchWorks();
+  }, []);
+
+  const names = datas.map((data) => data.name);
 
   return (
     <>
