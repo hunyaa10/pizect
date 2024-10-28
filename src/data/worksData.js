@@ -1,6 +1,3 @@
-import { db } from "../firebase";
-import { collection, doc, setDoc, getDoc } from "firebase/firestore";
-
 const membersData = [
   {
     id: 1,

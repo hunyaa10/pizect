@@ -6,7 +6,13 @@ import InputMeet from "./meetingItems/InputMeet";
 import useDragSensors from "../../hooks/useDragSensors";
 import useDragAndDrop from "../../hooks/useDragAndDrop";
 import { UiTitle } from "../uiComponents/UiTitle";
-import { collection, getDocs } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  deleteDoc,
+  doc,
+  getDocs,
+} from "firebase/firestore";
 import { db } from "../../firebase";
 
 const Meeting = () => {
@@ -16,13 +22,30 @@ const Meeting = () => {
   const { handleDragEnd } = useDragAndDrop(meets, setMeets);
 
   // 새 회의 추가
-  const handleAddMeet = ({ date, text }) => {
-    setMeets((meets) => [{ id: meets.length + 1, date, text }, ...meets]);
+  const handleAddMeet = async ({ date, text }) => {
+    try {
+      const docRef = await addDoc(collection(db, "meetings"), {
+        date,
+        text,
+        isChecked: false,
+      });
+      setMeets((meets) => [
+        { id: docRef.id, date, text, isChecked: false },
+        ...meets,
+      ]);
+    } catch (e) {
+      console.log("회의등록에 실패했습니다: ", e);
+    }
   };
 
   // 회의 삭제
-  const handleDeleteMeet = (id) => {
-    setMeets((prev) => prev.filter((meet) => meet.id !== id));
+  const handleDeleteMeet = async (id) => {
+    try {
+      await deleteDoc(doc(db, "meetings", id));
+      setMeets((prev) => prev.filter((meet) => meet.id !== id));
+    } catch (e) {
+      console.log("회의삭제에 실패했습니다: ", e);
+    }
   };
 
   // meetings 데이터 가져오기
@@ -34,8 +57,12 @@ const Meeting = () => {
         id: doc.id,
         ...doc.data(),
       }));
-      setMeets(data);
-      // console.log(data);
+      // 날짜 내림차순으로 정렬
+      const sortedData = data.sort(
+        (a, b) => new Date(b.date) - new Date(a.date)
+      );
+
+      setMeets(sortedData);
     } catch (e) {
       console.log("meetings 데이터를 불러오는데 실패했습니다. ", e);
     }
@@ -53,7 +80,11 @@ const Meeting = () => {
         onDragEnd={handleDragEnd}
       >
         <InputMeet handleAddMeet={handleAddMeet} />
-        <Board meets={meets} handleDeleteMeet={handleDeleteMeet} />
+        <Board
+          meets={meets}
+          handleDeleteMeet={handleDeleteMeet}
+          setMeets={setMeets}
+        />
       </DndContext>
     </MeetingBox>
   );

@@ -1,6 +1,3 @@
-import { db } from "../firebase";
-import { collection, doc, setDoc, getDoc } from "firebase/firestore";
-
 const meetingData = [
   { id: 1, date: "10/23", text: "오후1시 FE회의" },
   { id: 2, date: "10/23", text: "오후2시 전체회의" },
@@ -47,59 +44,3 @@ const memoData = [
     ],
   },
 ];
-
-// 회의 데이터 등록
-const addMeetingsToFirestore = async () => {
-  const meetingCollection = collection(db, "meetings");
-
-  try {
-    await Promise.all(
-      meetingData.map(async (meeting) => {
-        const meetingDocRef = doc(meetingCollection, meeting.id.toString());
-        const docSnapshot = await getDoc(meetingDocRef);
-
-        if (!docSnapshot.exists()) {
-          await setDoc(meetingDocRef, {
-            date: meeting.date,
-            text: meeting.text,
-          });
-          console.log("meetings 데이터 등록성공");
-        } else {
-          console.log("meetings 데이터가 이미 존재합니다.");
-        }
-      })
-    );
-  } catch (e) {
-    console.log("meetings 데이터 등록실패: ", e.message);
-  }
-};
-
-addMeetingsToFirestore();
-
-// 공지 데이터 등록
-const addMemosToFirestore = async () => {
-  const memosCollection = collection(db, "memos");
-
-  try {
-    await Promise.all(
-      memoData.map(async (memo) => {
-        const memoDocRef = doc(memosCollection, memo.id.toString());
-        const docSnapshot = await getDoc(memoDocRef);
-
-        if (!docSnapshot.exists()) {
-          await setDoc(memoDocRef, {
-            title: memo.title,
-            script: memo.script,
-          });
-          console.log("memos 데이터 등록성공");
-        } else {
-          console.log("memos 데이터가 이미 존재합니다.");
-        }
-      })
-    );
-  } catch (e) {
-    console.error("memos 데이터 등록실패: ", e.message);
-  }
-};
-
-addMemosToFirestore();

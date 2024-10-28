@@ -18,6 +18,9 @@ const MemoList = ({ id, title, script, handleDeleteMemo }) => {
     title,
     handleOpenModal,
     () => handleDeleteMemo(id),
+    null,
+    null,
+    "memos",
     null
   );
 

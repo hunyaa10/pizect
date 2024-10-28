@@ -6,7 +6,7 @@ import React from "react";
 import styled from "styled-components";
 import MeetingList from "./MeetingList";
 
-const Board = ({ meets, handleDeleteMeet }) => {
+const Board = ({ meets, handleDeleteMeet, setMeets }) => {
   return (
     <SortableContext items={meets} strategy={verticalListSortingStrategy}>
       <BoardUl>
@@ -18,6 +18,7 @@ const Board = ({ meets, handleDeleteMeet }) => {
               date={meet.date}
               text={meet.text}
               handleDeleteMeet={handleDeleteMeet}
+              setMeets={setMeets}
             />
           );
         })}

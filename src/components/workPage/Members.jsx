@@ -158,6 +158,7 @@ const Members = () => {
                 memberId={data.id}
                 works={data.works}
                 handleRemoveWork={handleRemoveWork}
+                setDatas={setDatas}
               />
               <Btn onClick={() => handleShowModal(data)}>제거</Btn>
               {showDelModal && (
