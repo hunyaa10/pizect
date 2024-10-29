@@ -6,7 +6,7 @@ import React from "react";
 import styled from "styled-components";
 import WorkList from "./WorkList";
 
-const MemberBoard = ({ works, memberId, handleRemoveWork, setDatas }) => {
+const MemberBoard = ({ id, works, handleRemoveWork, setDatas }) => {
   // console.log(works);
 
   return (
@@ -18,9 +18,9 @@ const MemberBoard = ({ works, memberId, handleRemoveWork, setDatas }) => {
         {works.map((work) => {
           return (
             <WorkList
+              id={id}
               key={work.id}
               workId={work.id}
-              memberId={memberId}
               work={work.work}
               handleRemoveWork={handleRemoveWork}
               setDatas={setDatas}

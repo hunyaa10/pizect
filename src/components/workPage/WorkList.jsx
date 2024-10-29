@@ -1,12 +1,12 @@
 import useSortableList from "../../hooks/useSortableList";
 
-const WorkList = ({ workId, memberId, work, handleRemoveWork, setDatas }) => {
+const WorkList = ({ id, workId, work, handleRemoveWork, setDatas }) => {
   const { ListItem } = useSortableList(
-    workId,
+    id,
     work,
     null,
-    () => handleRemoveWork(memberId, workId),
-    memberId,
+    () => handleRemoveWork(id, workId),
+    workId,
     null,
     "works",
     setDatas

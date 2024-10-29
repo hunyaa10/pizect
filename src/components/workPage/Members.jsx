@@ -8,33 +8,64 @@ import MemberHeader from "./MemberHeader";
 
 import CrownIcon from "../../icon/crown.svg";
 import DelModal from "./DelModal";
-import { collection, getDocs } from "firebase/firestore";
+import {
+  collection,
+  deleteDoc,
+  doc,
+  getDocs,
+  setDoc,
+  writeBatch,
+} from "firebase/firestore";
 import { db } from "../../firebase";
 
 const Members = () => {
   const [datas, setDatas] = useState([]);
-  const [leaderId, setLeaderId] = useState(1);
   const [showDelModal, setShowDelModal] = useState(false);
   const [memberToDel, setMemberToDel] = useState(null);
 
   // 팀장변경
-  const handleLeader = (id) => {
-    setLeaderId((prevId) => (prevId === id ? null : id));
+  const handleLeader = async (id) => {
+    const updatedMembers = datas.map((member) => ({
+      ...member,
+      isLeader: member.id === id ? true : false,
+    }));
+    setDatas(updatedMembers);
+
+    const batch = writeBatch(db);
+    updatedMembers.forEach((member) => {
+      const memberRef = doc(db, "works", member.id.toString());
+      batch.set(memberRef, { isLeader: member.isLeader }, { merge: true });
+    });
+    await batch.commit();
   };
 
   // 작업추가
-  const handleAddWork = (work, memberId) => {
+  const handleAddWork = async (work, memberId) => {
     if (work.trim()) {
+      const member = datas.find((data) => data.id === memberId);
+      const newWorkId = `w${member.works.length + 1}`;
+      const newWork = {
+        id: newWorkId,
+        work: work,
+        isChecked: false,
+        isLeader: false,
+      };
+
+      const memberRef = doc(db, "works", memberId.toString());
+      await setDoc(
+        memberRef,
+        {
+          works: [...member.works, newWork],
+        },
+        { merge: true }
+      );
+
       setDatas((prev) =>
         prev.map((data) => {
           if (data.id === memberId) {
-            const newWork = {
-              id: `w${data.works.length + 1}`,
-              work: work,
-            };
             return {
               ...data,
-              works: [newWork, ...data.works],
+              works: [...data.works, newWork],
             };
           }
           return data;
@@ -44,13 +75,25 @@ const Members = () => {
   };
 
   // 작업삭제
-  const handleRemoveWork = (memberId, listId) => {
+  const handleRemoveWork = async (memberId, listId) => {
+    const member = datas.find((data) => data.id === memberId);
+    const updatedWorks = member.works.filter((work) => work.id !== listId);
+
+    const memberRef = doc(db, "works", memberId.toString());
+    await setDoc(
+      memberRef,
+      {
+        works: updatedWorks,
+      },
+      { merge: true }
+    );
+
     setDatas((prev) =>
       prev.map((data) => {
         if (data.id === memberId) {
           return {
             ...data,
-            works: data.works.filter((work) => work.id !== listId),
+            works: updatedWorks,
           };
         }
         return data;
@@ -59,13 +102,18 @@ const Members = () => {
   };
 
   // 팀원추가
-  const handleAddMember = (name) => {
+  const handleAddMember = async (name) => {
     if (name.trim()) {
+      const newMemberId = datas.length + 1;
       const newMember = {
-        id: datas.length + 1,
+        id: newMemberId.toString(),
         name: name,
         works: [],
+        isLeader: false,
       };
+
+      const memberRef = doc(db, "works", newMemberId.toString());
+      await setDoc(memberRef, newMember);
 
       setDatas((prev) => [...prev, newMember]);
     }
@@ -80,9 +128,15 @@ const Members = () => {
     setShowDelModal(false);
   };
   // 팀원삭제
-  const handleDeleteMember = () => {
-    setDatas((prev) => prev.filter((member) => member.id !== memberToDel.id));
-    setMemberToDel(null);
+  const handleDeleteMember = async () => {
+    if (memberToDel) {
+      const memberRef = doc(db, "works", memberToDel.id);
+      await deleteDoc(memberRef);
+
+      setDatas((prev) => prev.filter((member) => member.id !== memberToDel.id));
+      setMemberToDel(null);
+      handleCloseModal();
+    }
   };
 
   // 드래그앤드롭
@@ -147,15 +201,13 @@ const Members = () => {
             <MemberBox>
               <NameBox>
                 <Name onClick={() => handleLeader(data.id)}>{data.name}님</Name>
-                {leaderId === data.id || (data.id === 1 && leaderId === 1) ? (
-                  <Icon src={CrownIcon} alt="crown-icon" />
-                ) : null}
+                {data.isLeader && <Icon src={CrownIcon} alt="crown-icon" />}
               </NameBox>
               <InputWork
                 handleAddWork={(work) => handleAddWork(work, data.id)}
               />
               <MemberBoard
-                memberId={data.id}
+                id={data.id}
                 works={data.works}
                 handleRemoveWork={handleRemoveWork}
                 setDatas={setDatas}

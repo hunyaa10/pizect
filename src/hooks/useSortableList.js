@@ -6,11 +6,11 @@ import { db } from "../firebase";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 
 const useSortableList = (
-  id,
+  id, // "1"
   text,
   onClick,
   handleRemoveFn,
-  memberId,
+  workId, // "w1"
   date,
   collectionName,
   setState
@@ -28,17 +28,21 @@ const useSortableList = (
   // isChecked 상태반영하는 초기화코드
   useEffect(() => {
     const fetchInitialState = async () => {
-      try {
-        const listDocRef = doc(db, collectionName, id);
-        const docSnap = await getDoc(listDocRef);
-        if (docSnap.exists()) {
-          const data = docSnap.data();
+      const listDocRef = doc(db, collectionName, id);
+      const docSnap = await getDoc(listDocRef);
+      if (docSnap.exists()) {
+        const data = docSnap.data();
 
+        // works인 경우
+        if (collectionName === "works") {
+          const workItem = data.works.find((work) => work.id === workId);
+          if (workItem) {
+            setIsChecked(workItem.isChecked);
+          }
+        } else {
           // meets인 경우
           setIsChecked(data.isChecked);
         }
-      } catch (e) {
-        console.error("isChecked에 대한 상태값을 가져오는데 실패했습니다: ", e);
       }
     };
 
@@ -46,20 +50,71 @@ const useSortableList = (
   }, [collectionName, id]);
 
   // 좌클릭 시 완료
-  const handleComplete = async (collectionName, id) => {
+  // const handleComplete = async (collectionName, id, workId) => {
+  // >> wokdId를 인식하는데 계속 오류가남
+  //   console.log("Collection Name:", collectionName); //works
+  //   console.log("Document ID:", id); //1
+  //   console.log("Work ID:", workId); //w1
+  //    >> 콘솔은 잘호출됨 >> 코드문제?
+
+  //   const newCheckedState = !isChecked;
+  //   setIsChecked(newCheckedState);
+
+  //   const updateDocument = async (docId) => {
+  //     const listDocRef = doc(db, collectionName, docId);
+  //     await updateDoc(listDocRef, { isChecked: newCheckedState });
+
+  //     return setState((prev) =>
+  //       prev.map((item) =>
+  //         item.id === docId ? { ...item, isChecked: newCheckedState } : item
+  //       )
+  //     );
+  //   };
+
+  //   if (workId) {
+  //     await updateDocument(workId);
+  //   } else {
+  //     await updateDocument(id);
+  //   }
+  // };
+
+  // 수정1
+  // works배열 내 항목을 수정하기 위해 해당배열을 전체로 가져와 수정 후 다시저장
+  const handleComplete = async (collectionName, id, workId) => {
     const newCheckedState = !isChecked;
     setIsChecked(newCheckedState);
 
-    const listDocRef = doc(db, collectionName, id);
+    if (workId) {
+      const worksDocRef = doc(db, collectionName, id);
+      const docSnap = await getDoc(worksDocRef);
 
-    // meets인 경우
-    await updateDoc(listDocRef, { isChecked: newCheckedState });
+      if (docSnap.exists()) {
+        const worksArray = docSnap.data().works.map((work) => {
+          if (work.id === workId) {
+            return { ...work, isChecked: newCheckedState };
+          }
+          return work;
+        });
 
-    setState((prev) => {
-      return prev.map((item) =>
-        item.id === id ? { ...item, isChecked: newCheckedState } : item
+        // 전체배열 업데이트
+        await updateDoc(worksDocRef, { works: worksArray });
+      }
+
+      setState((prev) =>
+        prev.map((work) =>
+          work.id === workId ? { ...work, isChecked: newCheckedState } : work
+        )
       );
-    });
+    } else {
+      const meetDocRef = doc(db, collectionName, id);
+      await updateDoc(meetDocRef, { isChecked: newCheckedState });
+
+      setState((prev) =>
+        prev.map((meet) =>
+          meet.id === id ? { ...meet, isChecked: newCheckedState } : meet
+        )
+      );
+    }
   };
 
   // 우클릭메뉴 >> 삭제버튼
@@ -70,8 +125,8 @@ const useSortableList = (
 
   // 삭제
   const handleDelete = () => {
-    if (memberId) {
-      handleRemoveFn(memberId, id);
+    if (workId) {
+      handleRemoveFn(workId, id);
     } else {
       handleRemoveFn(id);
     }
@@ -104,7 +159,7 @@ const useSortableList = (
       text={text}
       onClick={onClick}
       menuVisible={menuVisible}
-      handleComplete={() => handleComplete(collectionName, id)}
+      handleComplete={() => handleComplete(collectionName, id, workId)}
       handleDelete={handleDelete}
     />
   );

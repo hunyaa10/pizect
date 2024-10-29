@@ -8,6 +8,7 @@ const membersData = [
       { id: "w3", work: "모임개설페이지: 카카오지도연결" },
       { id: "w4", work: "모임목록필터링" },
     ],
+    isLeader: true,
   },
   {
     id: 2,

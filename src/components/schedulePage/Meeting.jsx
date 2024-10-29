@@ -7,11 +7,11 @@ import useDragSensors from "../../hooks/useDragSensors";
 import useDragAndDrop from "../../hooks/useDragAndDrop";
 import { UiTitle } from "../uiComponents/UiTitle";
 import {
-  addDoc,
   collection,
   deleteDoc,
   doc,
   getDocs,
+  setDoc,
 } from "firebase/firestore";
 import { db } from "../../firebase";
 
@@ -23,29 +23,26 @@ const Meeting = () => {
 
   // 새 회의 추가
   const handleAddMeet = async ({ date, text }) => {
-    try {
-      const docRef = await addDoc(collection(db, "meetings"), {
+    if (date && text.trim()) {
+      const newMeetId = meets.length + 1;
+      await setDoc(doc(db, "meetings", newMeetId.toString()), {
+        id: newMeetId.toString(),
         date,
         text,
         isChecked: false,
       });
+
       setMeets((meets) => [
-        { id: docRef.id, date, text, isChecked: false },
+        { id: newMeetId.toString(), date, text, isChecked: false },
         ...meets,
       ]);
-    } catch (e) {
-      console.log("회의등록에 실패했습니다: ", e);
     }
   };
 
   // 회의 삭제
   const handleDeleteMeet = async (id) => {
-    try {
-      await deleteDoc(doc(db, "meetings", id));
-      setMeets((prev) => prev.filter((meet) => meet.id !== id));
-    } catch (e) {
-      console.log("회의삭제에 실패했습니다: ", e);
-    }
+    await deleteDoc(doc(db, "meetings", id.toString()));
+    setMeets((prev) => prev.filter((meet) => meet.id !== id));
   };
 
   // meetings 데이터 가져오기
