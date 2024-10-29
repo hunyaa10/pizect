@@ -11,7 +11,7 @@ const ListModal = ({ handleCloseModal, title, script }) => {
         </CloseBtn>
         <Title>{title}</Title>
         <ScriptBox>
-          {script.map((line, idx) => (
+          {script.split("\n").map((line, idx) => (
             <Script key={idx}>{line}</Script>
           ))}
         </ScriptBox>

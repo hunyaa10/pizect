@@ -22,7 +22,7 @@ const Meeting = () => {
   const { handleDragEnd } = useDragAndDrop(meets, setMeets);
 
   // 새 회의 추가
-  const handleAddMeet = async ({ date, text }) => {
+  const handleAddMeet = async (date, text) => {
     if (date && text.trim()) {
       const newMeetId = meets.length + 1;
       await setDoc(doc(db, "meetings", newMeetId.toString()), {

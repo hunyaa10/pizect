@@ -6,7 +6,14 @@ import InputMemo from "./memoItems/InputMemo";
 import useDragSensors from "../../hooks/useDragSensors";
 import useDragAndDrop from "../../hooks/useDragAndDrop";
 import { UiTitle } from "../uiComponents/UiTitle";
-import { collection, getDocs } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  deleteDoc,
+  doc,
+  getDocs,
+  setDoc,
+} from "firebase/firestore";
 import { db } from "../../firebase";
 
 const Memo = () => {
@@ -16,12 +23,25 @@ const Memo = () => {
   const { handleDragEnd } = useDragAndDrop(memos, setMemos);
 
   // 새 메모 추가
-  const handleAddMemo = (title, script) => {
-    setMemos((memos) => [...memos, { id: memos.length + 1, title, script }]);
+  const handleAddMemo = async (title, script) => {
+    if (title.trim() && script.trim()) {
+      const newMemoId = memos.length + 1;
+      await setDoc(doc(db, "memos", newMemoId.toString()), {
+        id: newMemoId.toString(),
+        title,
+        script,
+      });
+
+      setMemos((memos) => [
+        ...memos,
+        { id: newMemoId.toString(), title, script },
+      ]);
+    }
   };
 
   // 메모 삭제
-  const handleDeleteMemo = (id) => {
+  const handleDeleteMemo = async (id) => {
+    await deleteDoc(doc(db, "memos", id.toString()));
     setMemos((prev) => prev.filter((memo) => memo.id !== id));
   };
 

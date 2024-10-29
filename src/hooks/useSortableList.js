@@ -30,17 +30,17 @@ const useSortableList = (
     const fetchInitialState = async () => {
       const listDocRef = doc(db, collectionName, id);
       const docSnap = await getDoc(listDocRef);
+
       if (docSnap.exists()) {
         const data = docSnap.data();
-
-        // works인 경우
+        // works
         if (collectionName === "works") {
           const workItem = data.works.find((work) => work.id === workId);
           if (workItem) {
             setIsChecked(workItem.isChecked);
           }
         } else {
-          // meets인 경우
+          // meetings
           setIsChecked(data.isChecked);
         }
       }
@@ -49,41 +49,11 @@ const useSortableList = (
     fetchInitialState();
   }, [collectionName, id]);
 
-  // 좌클릭 시 완료
-  // const handleComplete = async (collectionName, id, workId) => {
-  // >> wokdId를 인식하는데 계속 오류가남
-  //   console.log("Collection Name:", collectionName); //works
-  //   console.log("Document ID:", id); //1
-  //   console.log("Work ID:", workId); //w1
-  //    >> 콘솔은 잘호출됨 >> 코드문제?
-
-  //   const newCheckedState = !isChecked;
-  //   setIsChecked(newCheckedState);
-
-  //   const updateDocument = async (docId) => {
-  //     const listDocRef = doc(db, collectionName, docId);
-  //     await updateDoc(listDocRef, { isChecked: newCheckedState });
-
-  //     return setState((prev) =>
-  //       prev.map((item) =>
-  //         item.id === docId ? { ...item, isChecked: newCheckedState } : item
-  //       )
-  //     );
-  //   };
-
-  //   if (workId) {
-  //     await updateDocument(workId);
-  //   } else {
-  //     await updateDocument(id);
-  //   }
-  // };
-
-  // 수정1
-  // works배열 내 항목을 수정하기 위해 해당배열을 전체로 가져와 수정 후 다시저장
+  // 좌클릭 시 완료체크
   const handleComplete = async (collectionName, id, workId) => {
     const newCheckedState = !isChecked;
     setIsChecked(newCheckedState);
-
+    // works
     if (workId) {
       const worksDocRef = doc(db, collectionName, id);
       const docSnap = await getDoc(worksDocRef);
@@ -95,8 +65,6 @@ const useSortableList = (
           }
           return work;
         });
-
-        // 전체배열 업데이트
         await updateDoc(worksDocRef, { works: worksArray });
       }
 
@@ -106,6 +74,7 @@ const useSortableList = (
         )
       );
     } else {
+      // meetings
       const meetDocRef = doc(db, collectionName, id);
       await updateDoc(meetDocRef, { isChecked: newCheckedState });
 
