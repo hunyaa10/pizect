@@ -12,27 +12,32 @@ const ReackCalendar = ({ setCalendarOpen, selectedDate, setSelectedDate }) => {
     }
     return null;
   };
+
   const handleClickDate = (date) => {
     setSelectedDate(date);
-    // console.log(selectedDate);
+    setCalendarOpen(false);
   };
 
+  // ❓이벤트버블링으로 인해 달력내부클릭시에도 닫히는 오류 발생
+  // ✅Inner 박스를 하나 더만들어서 stopPropagation적용
+
   return (
-    <CalendarWrapper>
-      <StyledCalendar
-        onChange={(date) => {
-          setSelectedDate(date);
-          setCalendarOpen(false);
-        }}
-        onClickDay={handleClickDate}
-        value={selectedDate}
-        tileClassName={tileClassName}
-        tileDisabled={({ date }) => isBefore(date, startOfToday())}
-        formatDay={(locale, date) => format(date, "d")}
-        calendarType="gregory"
-        next2Label={null}
-        prev2Label={null}
-      />
+    <CalendarWrapper onClick={() => setCalendarOpen(false)}>
+      <Inner onClick={(e) => e.stopPropagation()}>
+        <StyledCalendar
+          onClickDay={(date) => handleClickDate(date)}
+          onClickMonth={() => {}}
+          value={selectedDate}
+          tileClassName={tileClassName}
+          tileDisabled={({ date }) => isBefore(date, startOfToday())}
+          formatDay={(locale, date) => format(date, "d")}
+          formatYear={(locale, date) => format(date, "yyyy")}
+          calendarType="gregory"
+          next2Label={null}
+          prev2Label={null}
+          minDetail="year"
+        />
+      </Inner>
     </CalendarWrapper>
   );
 };
@@ -43,6 +48,9 @@ export default ReackCalendar;
 const CalendarWrapper = styled.div`
   width: 100vw;
   height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   position: fixed;
   top: 0;
   left: 0;
@@ -102,12 +110,12 @@ const CalendarWrapper = styled.div`
     border-radius: 0.5rem;
   }
 `;
-const StyledCalendar = styled(Calendar)`
+const Inner = styled.div`
   width: 30%;
-  position: relative;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  height: fit-content;
+`;
+const StyledCalendar = styled(Calendar)`
+  width: 100%;
   padding: 2rem;
   border: none;
   border-radius: 0.5rem;

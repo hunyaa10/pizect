@@ -27,7 +27,7 @@ const InputMeet = ({ handleAddMeet }) => {
         <UiInput
           width="50%"
           type="text"
-          value={selectedDate ? selectedDate.toLocaleDateString() : ""}
+          value={selectedDate ? format(selectedDate, "MM/dd") : ""}
           placeholder="날짜를 선택하세요"
           readOnly={true}
           onClick={() => setCalendarOpen(true)}
