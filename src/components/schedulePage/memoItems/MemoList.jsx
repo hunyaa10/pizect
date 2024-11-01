@@ -2,7 +2,13 @@ import { useState } from "react";
 import useSortableList from "../../../hooks/useSortableList";
 import ListModal from "./ListModal";
 
-const MemoList = ({ id, title, script, handleDeleteMemo }) => {
+const MemoList = ({
+  id,
+  title,
+  script,
+  handleDeleteMemo,
+  handleUpdateMemo,
+}) => {
   const [showModal, setShowModal] = useState(false);
 
   // 모달창 이벤트함수
@@ -32,6 +38,9 @@ const MemoList = ({ id, title, script, handleDeleteMemo }) => {
           handleCloseModal={handleCloseModal}
           title={title}
           script={script}
+          handleUpdateMemo={(newTitle, newScript) =>
+            handleUpdateMemo(id, newTitle, newScript)
+          }
         />
       )}
     </>

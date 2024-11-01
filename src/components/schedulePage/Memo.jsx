@@ -12,7 +12,6 @@ import {
   deleteDoc,
   doc,
   getDocs,
-  setDoc,
   updateDoc,
 } from "firebase/firestore";
 import { db } from "../../firebase";
@@ -45,6 +44,21 @@ const Memo = () => {
     setMemos((prev) => prev.filter((memo) => memo.id !== id));
   };
 
+  // 메모수정
+  const handleUpdateMemo = async (id, newTitle, newScript) => {
+    const memoRef = doc(db, "memos", id);
+    await updateDoc(memoRef, {
+      title: newTitle,
+      script: newScript,
+    });
+
+    setMemos((prev) =>
+      prev.map((memo) =>
+        memo.id === id ? { ...memo, title: newTitle, script: newScript } : memo
+      )
+    );
+  };
+
   // memos 데이터 가져오기
   const fetchMemos = async () => {
     try {
@@ -75,7 +89,11 @@ const Memo = () => {
         onDragEnd={handleDragEnd}
       >
         <BoardBox>
-          <MemoBoard memos={memos} handleDeleteMemo={handleDeleteMemo} />
+          <MemoBoard
+            memos={memos}
+            handleDeleteMemo={handleDeleteMemo}
+            handleUpdateMemo={handleUpdateMemo}
+          />
           <InputMemo handleAddMemo={handleAddMemo} />
         </BoardBox>
       </DndContext>

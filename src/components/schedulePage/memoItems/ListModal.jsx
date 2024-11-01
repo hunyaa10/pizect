@@ -1,20 +1,45 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
-import CloseIcon from "../../../icon/x-icon.svg";
+import UiBtn from "../../uiComponents/UiBtn";
+import ListModalTitle from "./ListModalTitle";
+import ListModalScript from "./ListModalScript";
+import ListModalTop from "./ListModalTop";
 
-const ListModal = ({ handleCloseModal, title, script }) => {
+const ListModal = ({ handleCloseModal, title, script, handleUpdateMemo }) => {
+  const [isChangeInput, setIsChangeInput] = useState(false);
+  const [newTitle, setNewTitle] = useState(title);
+  const [newScript, setNewScript] = useState(script);
+
+  const handleSaveChangeMemo = () => {
+    handleUpdateMemo(newTitle, newScript);
+    handleCloseModal();
+  };
+
   return (
     <Wrapper onClick={handleCloseModal}>
       <Modal onClick={(e) => e.stopPropagation()}>
-        <CloseBtn onClick={handleCloseModal}>
-          <Icon src={CloseIcon} alt="x-icon" />
-        </CloseBtn>
-        <Title>{title}</Title>
-        <ScriptBox>
-          {script.split("\n").map((line, idx) => (
-            <Script key={idx}>{line}</Script>
-          ))}
-        </ScriptBox>
+        <ListModalTop
+          isChangeInput={isChangeInput}
+          setIsChangeInput={setIsChangeInput}
+          handleCloseModal={handleCloseModal}
+        />
+        <ListModalTitle
+          isChangeInput={isChangeInput}
+          newTitle={newTitle}
+          setNewTitle={setNewTitle}
+          title={title}
+        />
+        <ListModalScript
+          isChangeInput={isChangeInput}
+          newScript={newScript}
+          setNewScript={setNewScript}
+          script={script}
+        />
+        {isChangeInput && (
+          <BtnBox>
+            <UiBtn onClick={handleSaveChangeMemo}>수정하기</UiBtn>
+          </BtnBox>
+        )}
       </Modal>
     </Wrapper>
   );
@@ -38,7 +63,7 @@ const Wrapper = styled.div`
 const Modal = styled.div`
   padding: 1rem;
   width: 50%;
-  height: 50%;
+  height: 60%;
   background-color: #fff;
   border-radius: 0.25rem;
   position: relative;
@@ -56,35 +81,9 @@ const Modal = styled.div`
     border-radius: 0.25rem;
   }
 `;
-const CloseBtn = styled.button`
+const BtnBox = styled.div`
   position: absolute;
-  top: 1rem;
-  right: 1rem;
-  opacity: 0.7;
-  &:hover {
-    opacity: 1;
-  }
-`;
-const Icon = styled.img`
-  width: 24px;
-`;
-const Title = styled.h3`
-  width: 100%;
-  padding-bottom: 0.5rem;
-  text-align: center;
-  margin-bottom: 1.5rem;
-  border-bottom: 1px solid #ececec;
-`;
-const ScriptBox = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-const Script = styled.p`
-  padding: 0 1rem;
-  letter-spacing: 1px;
-  line-height: 1.8;
-  -webkit-user-select: text;
-  -moz-user-select: text;
-  -ms-user-select: text;
-  user-select: text;
+  bottom: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
 `;
