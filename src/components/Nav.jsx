@@ -8,7 +8,7 @@ const Nav = () => {
   const { isShowNav, handleHideNav, handleShowNav } = useNav();
 
   return (
-    <NavWrapper isShowNav={isShowNav}>
+    <NavWrapper $isshownav={isShowNav}>
       <NavArrow
         isShowNav={isShowNav}
         handleHideNav={handleHideNav}
@@ -24,7 +24,7 @@ export default Nav;
 
 // style
 const NavWrapper = styled.nav`
-  width: ${({ isShowNav }) => (isShowNav ? "15vw" : "56px")};
+  width: ${({ $isshownav }) => ($isshownav ? "15vw" : "56px")};
   height: 100vh;
   padding: 1rem;
   background-color: #f3f7f8;

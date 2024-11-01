@@ -9,17 +9,15 @@ const NavLink = ({ isShowNav }) => {
   return (
     <NavUl>
       <Link to="/">
-        <NavLi isShowNav={isShowNav}>
+        <NavLi $isshownav={isShowNav}>
           <Icon src={CalendarIcon} alt="calendar-icon" />
-          {/* {isShowNav && "일정 및 공지사항"} */}
-          <LiText isShowNav={isShowNav}>일정 및 공지사항</LiText>
+          <LiText $isshownav={isShowNav}>일정 및 공지사항</LiText>
         </NavLi>
       </Link>
       <Link to="/work">
-        <NavLi isShowNav={isShowNav}>
+        <NavLi $isshownav={isShowNav}>
           <Icon src={WorksIcon} alt="works-icon" />
-          {/* {isShowNav && "작업현황"} */}
-          <LiText isShowNav={isShowNav}>작업현황</LiText>
+          <LiText $isshownav={isShowNav}>작업현황</LiText>
         </NavLi>
       </Link>
     </NavUl>
@@ -40,9 +38,9 @@ const Icon = styled.img`
   opacity: 0.8;
 `;
 const NavLi = styled.li`
-  padding: ${({ isShowNav }) => (isShowNav ? "1rem" : "1rem 0")};
-  border-bottom: ${({ isShowNav }) =>
-    isShowNav ? "1px solid #3d778545" : "none"};
+  padding: ${({ $isshownav }) => ($isshownav ? "1rem" : "1rem 0")};
+  border-bottom: ${({ $isshownav }) =>
+    $isshownav ? "1px solid #3d778545" : "none"};
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -57,10 +55,10 @@ const NavLi = styled.li`
   }
 `;
 const LiText = styled.p`
-  opacity: ${({ isShowNav }) => (isShowNav ? "1" : "0")};
-  visibility: ${({ isShowNav }) => (isShowNav ? "visible" : "hidden")};
-  height: ${({ isShowNav }) => (isShowNav ? "auto" : "0")};
-  max-height: ${({ isShowNav }) => (isShowNav ? "50px" : "0")};
+  opacity: ${({ $isshownav }) => ($isshownav ? "1" : "0")};
+  visibility: ${({ $isshownav }) => ($isshownav ? "visible" : "hidden")};
+  height: ${({ $isshownav }) => ($isshownav ? "auto" : "0")};
+  max-height: ${({ $isshownav }) => ($isshownav ? "50px" : "0")};
   transition: opacity 0.3s ease, visibility 0s 0.3s, max-height 0.5s ease 0.5s;
   overflow: hidden;
 `;

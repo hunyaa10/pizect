@@ -18,7 +18,7 @@ const useSortableList = (
   const [isChecked, setIsChecked] = useState(false);
   const [menuVisible, setMenuVisible] = useState(false);
   const { attributes, listeners, setNodeRef, transform, transition } =
-    useSortable({ id: workId });
+    useSortable({ id: workId || id });
 
   const sortableStyle = {
     transition,
@@ -49,7 +49,7 @@ const useSortableList = (
     fetchInitialState();
   }, [collectionName, id]);
 
-  // 좌클릭 시 완료체크
+  // 좌클릭 시 완료표시
   const handleComplete = async (collectionName, id, workId) => {
     const newCheckedState = !isChecked;
     setIsChecked(newCheckedState);
@@ -86,13 +86,11 @@ const useSortableList = (
     }
   };
 
-  // 우클릭메뉴 >> 삭제버튼
   const handleContextMenu = (e) => {
     e.preventDefault();
     setMenuVisible(true);
   };
 
-  // 삭제
   const handleDelete = () => {
     if (workId) {
       handleRemoveFn(workId, id);

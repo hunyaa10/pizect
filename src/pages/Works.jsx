@@ -7,7 +7,7 @@ const Works = () => {
   const { isShowNav } = useNav();
 
   return (
-    <Wrapper isShowNav={isShowNav}>
+    <Wrapper $isshownav={isShowNav}>
       <Members />
     </Wrapper>
   );
@@ -17,7 +17,7 @@ export default Works;
 
 // style
 const Wrapper = styled.div`
-  width: ${({ isShowNav }) => (isShowNav ? "85vw" : "96vw")};
+  width: ${({ $isshownav }) => ($isshownav ? "85vw" : "96vw")};
   float: right;
   padding: 0 2rem 3rem 3rem;
   display: flex;

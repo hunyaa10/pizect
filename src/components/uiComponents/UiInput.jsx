@@ -9,6 +9,7 @@ export const UiInput = ({
   placeholder,
   width = "100%",
   readOnly = false,
+  required = true,
 }) => {
   return (
     <Input
@@ -20,6 +21,7 @@ export const UiInput = ({
       onChange={onChange}
       width={width}
       readOnly={readOnly}
+      required={required}
     />
   );
 };

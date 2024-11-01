@@ -1,28 +1,21 @@
 import { closestCorners, DndContext } from "@dnd-kit/core";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import Board from "./meetingItems/Board";
 import InputMeet from "./meetingItems/InputMeet";
 import useDragSensors from "../../hooks/useDragSensors";
-import useDragAndDrop from "../../hooks/useDragAndDrop";
+import useDragEnd from "../../hooks/useDragEnd";
 import { UiTitle } from "../uiComponents/UiTitle";
-import {
-  addDoc,
-  collection,
-  deleteDoc,
-  doc,
-  getDocs,
-  setDoc,
-} from "firebase/firestore";
+import useFetchData from "../../hooks/useFetchData";
+import { addDoc, collection, deleteDoc, doc } from "firebase/firestore";
 import { db } from "../../firebase";
 
 const Meeting = () => {
-  const [meets, setMeets] = useState([]);
+  const { data: meets, setData: setMeets } = useFetchData("meetings");
 
   const sensors = useDragSensors();
-  const { handleDragEnd } = useDragAndDrop(meets, setMeets, "meetings");
+  const { handleDragEnd } = useDragEnd(meets, setMeets, "meetings");
 
-  // 새 회의 추가
   const handleAddMeet = async (date, text) => {
     if (date && text) {
       const maxOrder =
@@ -39,31 +32,10 @@ const Meeting = () => {
     }
   };
 
-  // 회의 삭제
   const handleDeleteMeet = async (id) => {
     await deleteDoc(doc(db, "meetings", id.toString()));
     setMeets((prev) => prev.filter((meet) => meet.id !== id));
   };
-
-  // meetings 데이터 가져오기
-  const fetchMeetings = async () => {
-    try {
-      const meetingsCollection = collection(db, "meetings");
-      const meetingDocs = await getDocs(meetingsCollection);
-      const data = meetingDocs.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-      const sortedData = data.sort((a, b) => a.order - b.order);
-
-      setMeets(sortedData);
-    } catch (e) {
-      console.log("meetings 데이터를 불러오는데 실패했습니다. ", e);
-    }
-  };
-  useEffect(() => {
-    fetchMeetings();
-  }, []);
 
   return (
     <MeetingBox>

@@ -1,28 +1,22 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import useDragSensors from "../../hooks/useDragSensors";
 import styled from "styled-components";
 import { closestCorners, DndContext } from "@dnd-kit/core";
-import MemberBoard from "./MemberBoard";
-import InputWork from "./InputWork";
 import MemberHeader from "./MemberHeader";
-
-import CrownIcon from "../../icon/crown.svg";
-import DelModal from "./DelModal";
-import {
-  collection,
-  deleteDoc,
-  doc,
-  getDocs,
-  setDoc,
-  updateDoc,
-  writeBatch,
-} from "firebase/firestore";
+import Member from "./Member";
+import { deleteDoc, doc, setDoc, writeBatch } from "firebase/firestore";
 import { db } from "../../firebase";
+import useFetchData from "../../hooks/useFetchData";
+import useDragEndWorks from "../../hooks/useDragEndWorks";
 
 const Members = () => {
-  const [datas, setDatas] = useState([]);
+  const { data: datas, setData: setDatas } = useFetchData("works");
+
   const [showDelModal, setShowDelModal] = useState(false);
   const [memberToDel, setMemberToDel] = useState(null);
+
+  const sensors = useDragSensors();
+  const handleDragEnd = useDragEndWorks(datas, setDatas, db);
 
   // 팀장변경
   const handleLeader = async (id) => {
@@ -133,7 +127,6 @@ const Members = () => {
     }
   };
 
-  // 팀원삭제모달창
   const handleShowModal = (member) => {
     setMemberToDel(member);
     setShowDelModal(true);
@@ -153,60 +146,12 @@ const Members = () => {
     }
   };
 
-  // 드래그앤드롭
-  const sensors = useDragSensors();
-  const handleDragEnd = async (event, memberId) => {
-    const { active, over } = event;
-
-    if (!over || active.id === over.id) return;
-
-    const member = datas.find((data) => data.id === memberId);
-    const oldIndex = member.works.findIndex((work) => work.id === active.id);
-    const newIndex = member.works.findIndex((work) => work.id === over.id);
-
-    if (oldIndex !== -1 && newIndex !== -1) {
-      const newWorks = [...member.works];
-      const [movedItem] = newWorks.splice(oldIndex, 1);
-      newWorks.splice(newIndex, 0, movedItem);
-
-      setDatas((prev) =>
-        prev.map((data) => {
-          if (data.id === memberId) {
-            return { ...data, works: newWorks };
-          }
-          return data;
-        })
-      );
-
-      const memberRef = doc(db, "works", memberId.toString());
-      await setDoc(memberRef, { works: newWorks }, { merge: true });
-    }
-  };
-
-  // works 데이터 가져오기
-  const fetchWorks = async () => {
-    try {
-      const worksCollection = collection(db, "works");
-      const worksDocs = await getDocs(worksCollection);
-      const data = worksDocs.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-      const sortedData = data.sort((a, b) => a.order - b.order);
-      setDatas(sortedData);
-    } catch (e) {
-      console.log("works 데이터를 불러오는데 실패했습니다. ", e);
-    }
-  };
-  useEffect(() => {
-    fetchWorks();
-  }, []);
-
-  const names = datas.map((data) => data.name);
-
   return (
     <>
-      <MemberHeader names={names} handleAddMember={handleAddMember} />
+      <MemberHeader
+        names={datas.map((data) => data.name)}
+        handleAddMember={handleAddMember}
+      />
       <Container>
         {datas.map((data) => (
           <DndContext
@@ -215,29 +160,18 @@ const Members = () => {
             collisionDetection={closestCorners}
             onDragEnd={(e) => handleDragEnd(e, data.id)}
           >
-            <MemberBox>
-              <NameBox>
-                <Name onClick={() => handleLeader(data.id)}>{data.name}님</Name>
-                {data.isLeader && <Icon src={CrownIcon} alt="crown-icon" />}
-              </NameBox>
-              <InputWork
-                handleAddWork={(work) => handleAddWork(work, data.id)}
-              />
-              <MemberBoard
-                id={data.id}
-                works={data.works}
-                handleRemoveWork={handleRemoveWork}
-                setDatas={setDatas}
-              />
-              <Btn onClick={() => handleShowModal(data)}>제거</Btn>
-              {showDelModal && (
-                <DelModal
-                  handleCloseModal={handleCloseModal}
-                  name={memberToDel.name}
-                  handleDeleteMember={handleDeleteMember}
-                />
-              )}
-            </MemberBox>
+            <Member
+              data={data}
+              setDatas={setDatas}
+              handleLeader={handleLeader}
+              handleAddWork={handleAddWork}
+              handleRemoveWork={handleRemoveWork}
+              handleShowModal={handleShowModal}
+              showDelModal={showDelModal}
+              memberToDel={memberToDel}
+              handleCloseModal={handleCloseModal}
+              handleDeleteMember={handleDeleteMember}
+            />
           </DndContext>
         ))}
       </Container>
@@ -253,36 +187,4 @@ const Container = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 2rem;
-`;
-const MemberBox = styled.div`
-  height: fit-content;
-  padding: 2rem 1.5rem 4rem 1.5rem;
-  background-color: #f3f7f8;
-  border-radius: 0.2rem;
-  position: relative;
-`;
-const NameBox = styled.div`
-  margin-bottom: 2rem;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-`;
-const Name = styled.h3`
-  font-size: 1.1rem;
-  letter-spacing: 1px;
-  color: #2f4f57;
-`;
-const Icon = styled.img`
-  width: 1rem;
-`;
-const Btn = styled.button`
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
-  font-size: 0.8rem;
-  color: #a8a8a8;
-  opacity: 0.7;
-  &:hover {
-    opacity: 1;
-  }
 `;

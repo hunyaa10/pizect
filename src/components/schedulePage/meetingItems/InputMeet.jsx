@@ -9,29 +9,41 @@ const InputMeet = ({ handleAddMeet }) => {
   const [inputValue, setInputValue] = useState("");
   const [selectedDate, setSelectedDate] = useState(null);
   const [calendarOpen, setCalendarOpen] = useState(false);
+  const [dateError, setDateError] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    if (selectedDate === null) {
+      setDateError("날짜를 선택하세요");
+      return;
+    }
+
     if (inputValue && selectedDate) {
       const newDate = format(selectedDate, "MM/dd");
       handleAddMeet(newDate, inputValue);
       setInputValue("");
       setSelectedDate(null);
       setCalendarOpen(false);
+      setDateError("");
     }
   };
 
   return (
     <>
       <Form onSubmit={handleSubmit}>
-        <UiInput
-          width="50%"
-          type="text"
-          value={selectedDate ? format(selectedDate, "MM/dd") : ""}
-          placeholder="날짜를 선택하세요"
-          readOnly={true}
-          onClick={() => setCalendarOpen(true)}
-        />
+        <DateWrapper>
+          <UiInput
+            width="30%"
+            type="text"
+            value={selectedDate ? format(selectedDate, "MM/dd") : ""}
+            placeholder="회의 날짜"
+            readOnly={true}
+            onClick={() => setCalendarOpen(true)}
+            required
+          />
+          <DateError>{dateError}</DateError>
+        </DateWrapper>
 
         <TextWrapper>
           <UiInput
@@ -40,6 +52,7 @@ const InputMeet = ({ handleAddMeet }) => {
             value={inputValue}
             placeholder="회의를 추가하세요"
             onChange={(e) => setInputValue(e.target.value)}
+            required
           />
           <UiBtn type="submit">추가</UiBtn>
         </TextWrapper>
@@ -65,6 +78,15 @@ const Form = styled.form`
   flex-direction: column;
   align-items: flex-start;
   gap: 0.2rem;
+`;
+const DateWrapper = styled.div`
+  width: 100%;
+`;
+const DateError = styled.span`
+  margin-left: 0.5rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: red;
 `;
 const TextWrapper = styled.div`
   width: 100%;

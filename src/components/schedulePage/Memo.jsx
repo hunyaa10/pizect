@@ -4,8 +4,9 @@ import styled from "styled-components";
 import MemoBoard from "./memoItems/MemoBoard";
 import InputMemo from "./memoItems/InputMemo";
 import useDragSensors from "../../hooks/useDragSensors";
-import useDragAndDrop from "../../hooks/useDragAndDrop";
+import useDragEnd from "../../hooks/useDragEnd";
 import { UiTitle } from "../uiComponents/UiTitle";
+import useFetchData from "../../hooks/useFetchData";
 import {
   addDoc,
   collection,
@@ -17,12 +18,11 @@ import {
 import { db } from "../../firebase";
 
 const Memo = () => {
-  const [memos, setMemos] = useState([]);
+  const { data: memos, setData: setMemos } = useFetchData("memos");
 
   const sensors = useDragSensors();
-  const { handleDragEnd } = useDragAndDrop(memos, setMemos, "memos");
+  const { handleDragEnd } = useDragEnd(memos, setMemos, "memos");
 
-  // 새 메모 추가
   const handleAddMemo = async (title, script) => {
     if (title.trim() && script.trim()) {
       const maxOrder =
@@ -38,13 +38,11 @@ const Memo = () => {
     }
   };
 
-  // 메모 삭제
   const handleDeleteMemo = async (id) => {
     await deleteDoc(doc(db, "memos", id.toString()));
     setMemos((prev) => prev.filter((memo) => memo.id !== id));
   };
 
-  // 메모수정
   const handleUpdateMemo = async (id, newTitle, newScript) => {
     const memoRef = doc(db, "memos", id);
     await updateDoc(memoRef, {
@@ -58,27 +56,6 @@ const Memo = () => {
       )
     );
   };
-
-  // memos 데이터 가져오기
-  const fetchMemos = async () => {
-    try {
-      const memosCollection = collection(db, "memos");
-      const memosDocs = await getDocs(memosCollection);
-      const data = memosDocs.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-
-      const sortedMemos = data.sort((a, b) => a.order - b.order);
-      setMemos(sortedMemos);
-      // console.log(data);
-    } catch (e) {
-      console.log("memos 데이터를 불러오는데 실패했습니다. ", e);
-    }
-  };
-  useEffect(() => {
-    fetchMemos();
-  }, []);
 
   return (
     <MemoBox>

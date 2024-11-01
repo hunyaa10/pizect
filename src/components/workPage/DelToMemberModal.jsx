@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import UiBtn from "../uiComponents/UiBtn";
 
-const DelModal = ({ handleCloseModal, name, handleDeleteMember }) => {
+const DelToMemberModal = ({ handleCloseModal, name, handleDeleteMember }) => {
   const onDelete = () => {
     handleDeleteMember();
     handleCloseModal();
@@ -25,7 +25,7 @@ const DelModal = ({ handleCloseModal, name, handleDeleteMember }) => {
   );
 };
 
-export default DelModal;
+export default DelToMemberModal;
 
 // style
 const Wrapper = styled.div`
