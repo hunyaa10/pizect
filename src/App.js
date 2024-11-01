@@ -3,16 +3,19 @@ import Schedule from "./pages/Schedule";
 import Works from "./pages/Works";
 import Nav from "./components/Nav";
 import Home from "./pages/Home";
+import { NavProvider } from "./NavContext";
 
 function App() {
   return (
     <BrowserRouter>
-      <Nav />
-      <Routes>
-        <Route path="/" element={<Schedule />} />
-        <Route path="work" element={<Works />} />
-        <Route path="home" element={<Home />} />
-      </Routes>
+      <NavProvider>
+        <Nav />
+        <Routes>
+          <Route path="/" element={<Schedule />} />
+          <Route path="work" element={<Works />} />
+          <Route path="home" element={<Home />} />
+        </Routes>
+      </NavProvider>
     </BrowserRouter>
   );
 }

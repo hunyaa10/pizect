@@ -3,10 +3,13 @@ import Meeting from "./Meeting";
 import Memo from "./Memo";
 import styled from "styled-components";
 import ScheduleHeader from "./ScheduleHeader";
+import { useNav } from "../../NavContext";
 
 const Notice = () => {
+  const { isShowNav } = useNav();
+
   return (
-    <Wrapper>
+    <Wrapper isShowNav={isShowNav}>
       <ScheduleHeader />
       <Div>
         <Meeting />
@@ -20,12 +23,13 @@ export default Notice;
 
 // style
 const Wrapper = styled.div`
-  width: 85vw;
+  width: ${({ isShowNav }) => (isShowNav ? "85vw" : "96vw")};
   float: right;
   padding: 0 2rem 0 2rem;
   display: flex;
   flex-direction: column;
   gap: 2rem;
+  transition: 0.5s;
 `;
 const Div = styled.div`
   display: flex;
