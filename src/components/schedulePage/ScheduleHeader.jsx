@@ -1,11 +1,57 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
+import PencilIcon from "../../icon/pencil.svg";
+import { useNav } from "../../NavContext";
+import useFetchData from "../../hooks/useFetchData";
+import { UiInput } from "../uiComponents/UiInput";
+import { doc, setDoc } from "firebase/firestore";
+import { db } from "../../firebase";
+
 const ScheduleHeader = () => {
+  const { isShowNav } = useNav();
+  const { data, setData } = useFetchData("project_name");
+  // console.log(data[0]);
+  const [nameInputValue, setNameInputValue] = useState("");
+  const [changeInput, setChangeInput] = useState(false);
+
+  useEffect(() => {
+    if (data.length > 0) {
+      setNameInputValue(data[0]?.name || "");
+    }
+  }, [data]);
+
+  const handleChangeProjectName = async (e) => {
+    e.preventDefault();
+
+    const projectRef = doc(db, "project_name", data[0]?.id);
+    await setDoc(projectRef, { name: nameInputValue }, { merge: true });
+    setData((prev) =>
+      prev.map((item) =>
+        item.id === data[0]?.id ? { ...item, name: nameInputValue } : item
+      )
+    );
+    setChangeInput(false);
+  };
+
   return (
     <Header>
-      <Logo>PIZECT.</Logo>
-      <PjTitle>RUNTO_런토</PjTitle>
+      <Logo $isshownav={isShowNav}>PIZECT.</Logo>
+      <NameBox onSubmit={handleChangeProjectName}>
+        {changeInput ? (
+          <UiInput
+            value={nameInputValue}
+            onChange={(e) => setNameInputValue(e.target.value)}
+          />
+        ) : (
+          <PjName>{data[0]?.name}</PjName>
+        )}
+        <Icon
+          src={PencilIcon}
+          alt="pencil-icon"
+          onClick={() => setChangeInput(true)}
+        />
+      </NameBox>
     </Header>
   );
 };
@@ -25,9 +71,24 @@ const Logo = styled.h1`
   font-size: 2rem;
   font-weight: 700;
   color: #3d7685;
-  opacity: 0;
+  opacity: ${({ $isshownav }) => ($isshownav ? "0" : "1")};
 `;
-const PjTitle = styled.h2`
+const NameBox = styled.form`
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+`;
+const PjName = styled.h2`
   font-size: 1.5rem;
   color: #3d7685;
+`;
+const PjInput = styled.input``;
+const Btn = styled.button``;
+const Icon = styled.img`
+  cursor: pointer;
+  width: 1.5rem;
+  opacity: 0.5;
+  &:hover {
+    opacity: 0.7;
+  }
 `;

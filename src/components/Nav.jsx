@@ -14,7 +14,7 @@ const Nav = () => {
         handleHideNav={handleHideNav}
         handleShowNav={handleShowNav}
       />
-      {isShowNav ? <Logo>PIZECT.</Logo> : <Logo>P.</Logo>}
+      {isShowNav ? <Logo>PIZECT.</Logo> : <Logo>P</Logo>}
       <NavLink isShowNav={isShowNav} />
     </NavWrapper>
   );
