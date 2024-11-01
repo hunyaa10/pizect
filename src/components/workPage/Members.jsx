@@ -196,7 +196,7 @@ const Members = () => {
             key={data.id}
             sensors={sensors}
             collisionDetection={closestCorners}
-            onDragEnd={(e) => handleDragEnd(e, data.id)}
+            onDragEnd={(e) => handleDragEnd(e, data.works.id)}
           >
             <MemberBox>
               <NameBox>

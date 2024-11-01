@@ -23,7 +23,7 @@ const Meeting = () => {
 
   // 새 회의 추가
   const handleAddMeet = async (date, text) => {
-    if (date && text.trim()) {
+    if (date && text) {
       const newMeetId = meets.length + 1;
       await setDoc(doc(db, "meetings", newMeetId.toString()), {
         id: newMeetId.toString(),

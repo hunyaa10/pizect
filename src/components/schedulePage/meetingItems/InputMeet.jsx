@@ -12,13 +12,13 @@ const InputMeet = ({ handleAddMeet }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!inputValue.trim() || !selectedDate) return;
-
-    const newDate = format(selectedDate, "MM/dd");
-    handleAddMeet({ date: newDate, text: inputValue });
-    setInputValue("");
-    setSelectedDate(null);
-    setCalendarOpen(false);
+    if (inputValue && selectedDate) {
+      const newDate = format(selectedDate, "MM/dd");
+      handleAddMeet(newDate, inputValue);
+      setInputValue("");
+      setSelectedDate(null);
+      setCalendarOpen(false);
+    }
   };
 
   return (

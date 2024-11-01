@@ -13,6 +13,7 @@ import {
   doc,
   getDocs,
   setDoc,
+  updateDoc,
 } from "firebase/firestore";
 import { db } from "../../firebase";
 
@@ -20,22 +21,21 @@ const Memo = () => {
   const [memos, setMemos] = useState([]);
 
   const sensors = useDragSensors();
-  const { handleDragEnd } = useDragAndDrop(memos, setMemos);
+  const { handleDragEnd } = useDragAndDrop(memos, setMemos, "memos");
 
   // 새 메모 추가
   const handleAddMemo = async (title, script) => {
     if (title.trim() && script.trim()) {
-      const newMemoId = memos.length + 1;
-      await setDoc(doc(db, "memos", newMemoId.toString()), {
-        id: newMemoId.toString(),
+      const maxOrder =
+        memos.length > 0 ? Math.max(...memos.map((memo) => memo.order)) : 0;
+      const newMemo = {
         title,
         script,
-      });
+        order: maxOrder + 1,
+      };
+      const docRef = await addDoc(collection(db, "memos"), newMemo);
 
-      setMemos((memos) => [
-        ...memos,
-        { id: newMemoId.toString(), title, script },
-      ]);
+      setMemos((memos) => [...memos, { id: docRef.id, ...newMemo }]);
     }
   };
 
@@ -54,7 +54,9 @@ const Memo = () => {
         id: doc.id,
         ...doc.data(),
       }));
-      setMemos(data);
+
+      const sortedMemos = data.sort((a, b) => a.order - b.order);
+      setMemos(sortedMemos);
       // console.log(data);
     } catch (e) {
       console.log("memos 데이터를 불러오는데 실패했습니다. ", e);
