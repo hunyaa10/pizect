@@ -7,6 +7,7 @@ import useDragSensors from "../../hooks/useDragSensors";
 import useDragAndDrop from "../../hooks/useDragAndDrop";
 import { UiTitle } from "../uiComponents/UiTitle";
 import {
+  addDoc,
   collection,
   deleteDoc,
   doc,
@@ -19,23 +20,22 @@ const Meeting = () => {
   const [meets, setMeets] = useState([]);
 
   const sensors = useDragSensors();
-  const { handleDragEnd } = useDragAndDrop(meets, setMeets);
+  const { handleDragEnd } = useDragAndDrop(meets, setMeets, "meetings");
 
   // 새 회의 추가
   const handleAddMeet = async (date, text) => {
     if (date && text) {
-      const newMeetId = meets.length + 1;
-      await setDoc(doc(db, "meetings", newMeetId.toString()), {
-        id: newMeetId.toString(),
+      const maxOrder =
+        meets.length > 0 ? Math.max(...meets.map((meet) => meet.order)) : 0;
+      const newMeet = {
         date,
         text,
         isChecked: false,
-      });
+        order: maxOrder + 1,
+      };
+      const docRef = await addDoc(collection(db, "meetings"), newMeet);
 
-      setMeets((meets) => [
-        { id: newMeetId.toString(), date, text, isChecked: false },
-        ...meets,
-      ]);
+      setMeets((meets) => [{ id: docRef.id, ...newMeet }, ...meets]);
     }
   };
 
@@ -54,10 +54,7 @@ const Meeting = () => {
         id: doc.id,
         ...doc.data(),
       }));
-      // 날짜 내림차순으로 정렬
-      const sortedData = data.sort(
-        (a, b) => new Date(b.date) - new Date(a.date)
-      );
+      const sortedData = data.sort((a, b) => a.order - b.order);
 
       setMeets(sortedData);
     } catch (e) {

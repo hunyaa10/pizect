@@ -18,7 +18,7 @@ const useSortableList = (
   const [isChecked, setIsChecked] = useState(false);
   const [menuVisible, setMenuVisible] = useState(false);
   const { attributes, listeners, setNodeRef, transform, transition } =
-    useSortable({ id });
+    useSortable({ id: workId });
 
   const sortableStyle = {
     transition,

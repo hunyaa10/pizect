@@ -14,6 +14,7 @@ import {
   doc,
   getDocs,
   setDoc,
+  updateDoc,
   writeBatch,
 } from "firebase/firestore";
 import { db } from "../../firebase";
@@ -43,12 +44,25 @@ const Members = () => {
   const handleAddWork = async (work, memberId) => {
     if (work.trim()) {
       const member = datas.find((data) => data.id === memberId);
-      const newWorkId = `w${member.works.length + 1}`;
+      const maxOrder =
+        member.works.length > 0
+          ? Math.max(...member.works.map((w) => w.order))
+          : 0;
+
+      const maxId =
+        member.works.length > 0
+          ? Math.max(
+              ...member.works.map((w) => parseInt(w.id.replace("w", "")))
+            )
+          : 0;
+      const newWorkId = `w${maxId + 1}`;
+
       const newWork = {
         id: newWorkId,
         work: work,
         isChecked: false,
         isLeader: false,
+        order: maxOrder + 1,
       };
 
       const memberRef = doc(db, "works", memberId.toString());
@@ -141,8 +155,7 @@ const Members = () => {
 
   // 드래그앤드롭
   const sensors = useDragSensors();
-
-  const handleDragEnd = (event, memberId) => {
+  const handleDragEnd = async (event, memberId) => {
     const { active, over } = event;
 
     if (!over || active.id === over.id) return;
@@ -164,6 +177,9 @@ const Members = () => {
           return data;
         })
       );
+
+      const memberRef = doc(db, "works", memberId.toString());
+      await setDoc(memberRef, { works: newWorks }, { merge: true });
     }
   };
 
@@ -176,7 +192,8 @@ const Members = () => {
         id: doc.id,
         ...doc.data(),
       }));
-      setDatas(data);
+      const sortedData = data.sort((a, b) => a.order - b.order);
+      setDatas(sortedData);
     } catch (e) {
       console.log("works 데이터를 불러오는데 실패했습니다. ", e);
     }
@@ -196,7 +213,7 @@ const Members = () => {
             key={data.id}
             sensors={sensors}
             collisionDetection={closestCorners}
-            onDragEnd={(e) => handleDragEnd(e, data.works.id)}
+            onDragEnd={(e) => handleDragEnd(e, data.id)}
           >
             <MemberBox>
               <NameBox>

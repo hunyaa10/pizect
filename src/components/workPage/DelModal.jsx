@@ -15,7 +15,7 @@ const DelModal = ({ handleCloseModal, name, handleDeleteMember }) => {
           <Name>{name}</Name>님을 삭제하시겠습니까?
         </Text>
         <BtnBox>
-          <UiBtn bgcolor="#666" onClick={handleCloseModal}>
+          <UiBtn $bgcolor="#666" onClick={handleCloseModal}>
             아니요
           </UiBtn>
           <UiBtn onClick={onDelete}>삭제하기</UiBtn>
@@ -31,7 +31,7 @@ export default DelModal;
 const Wrapper = styled.div`
   width: 100vw;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 0.3);
+  background-color: rgba(0, 0, 0, 0.2);
   position: fixed;
   top: 0;
   left: 0;
