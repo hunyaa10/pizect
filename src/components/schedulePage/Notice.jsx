@@ -25,7 +25,7 @@ export default Notice;
 const Wrapper = styled.div`
   width: ${({ $isshownav }) => ($isshownav ? "85vw" : "96vw")};
   float: right;
-  padding: 0 2rem 0 2rem;
+  padding: 0 2rem 3rem 3rem;
   display: flex;
   flex-direction: column;
   gap: 2rem;

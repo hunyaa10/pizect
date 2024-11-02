@@ -5,17 +5,19 @@ import {
 import React from "react";
 import styled from "styled-components";
 import MeetingList from "./MeetingList";
+import { format } from "date-fns";
 
 const Board = ({ meets, handleDeleteMeet, setMeets }) => {
   return (
     <SortableContext items={meets} strategy={verticalListSortingStrategy}>
       <BoardUl>
         {meets.map((meet) => {
+          const newDate = format(meet.date, "MM/dd");
           return (
             <MeetingList
               key={meet.id}
               id={meet.id}
-              date={meet.date}
+              date={newDate}
               text={meet.text}
               handleDeleteMeet={handleDeleteMeet}
               setMeets={setMeets}

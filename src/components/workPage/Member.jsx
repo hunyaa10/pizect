@@ -64,6 +64,10 @@ const Name = styled.h3`
   font-size: 1.1rem;
   letter-spacing: 1px;
   color: #2f4f57;
+  cursor: pointer;
+  &:hover {
+    opacity: 0.8;
+  }
 `;
 const Icon = styled.img`
   width: 1rem;

@@ -13,6 +13,7 @@ import useDeleteDoc from "../../hooks/useDeleteDoc";
 
 const Meeting = () => {
   const { data: meets, setData: setMeets } = useFetchData("meetings");
+
   const addMeet = useAddDoc(db, "meetings", setMeets);
   const deleteMeet = useDeleteDoc(db, "meetings", setMeets);
 
@@ -41,7 +42,7 @@ const Meeting = () => {
         collisionDetection={closestCorners}
         onDragEnd={handleDragEnd}
       >
-        <InputMeet handleAddMeet={handleAddMeet} />
+        <InputMeet handleAddMeet={handleAddMeet} meets={meets} />
         <Board
           meets={meets}
           handleDeleteMeet={handleDeleteMeet}

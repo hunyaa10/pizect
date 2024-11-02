@@ -5,13 +5,13 @@ import UiBtn from "../../uiComponents/UiBtn";
 import ReackCalendar from "./ReackCalendar";
 import { format } from "date-fns";
 
-const InputMeet = ({ handleAddMeet }) => {
+const InputMeet = ({ handleAddMeet, meets }) => {
   const [inputValue, setInputValue] = useState("");
   const [selectedDate, setSelectedDate] = useState(null);
   const [calendarOpen, setCalendarOpen] = useState(false);
   const [dateError, setDateError] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (selectedDate === null) {
@@ -20,8 +20,9 @@ const InputMeet = ({ handleAddMeet }) => {
     }
 
     if (inputValue && selectedDate) {
-      const newDate = format(selectedDate, "MM/dd");
-      handleAddMeet(newDate, inputValue);
+      const newDate = format(selectedDate, "yyyy-MM-dd");
+      await handleAddMeet(newDate, inputValue);
+
       setInputValue("");
       setSelectedDate(null);
       setCalendarOpen(false);
@@ -62,6 +63,7 @@ const InputMeet = ({ handleAddMeet }) => {
           setCalendarOpen={setCalendarOpen}
           selectedDate={selectedDate}
           setSelectedDate={setSelectedDate}
+          meets={meets}
         />
       )}
     </>

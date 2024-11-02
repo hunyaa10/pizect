@@ -4,13 +4,17 @@ import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import styled from "styled-components";
 
-const ReackCalendar = ({ setCalendarOpen, selectedDate, setSelectedDate }) => {
+const ReackCalendar = ({
+  setCalendarOpen,
+  selectedDate,
+  setSelectedDate,
+  meets,
+}) => {
   const tileClassName = ({ date }) => {
-    const formattedDate = format(date, "yyyy-MM-dd");
-    if (formattedDate === "2024-10-14" || formattedDate === "2024-10-23") {
-      return "highlighted-date";
-    }
-    return null;
+    const savedDates = meets.map((meet) => meet.date);
+    const newDate = savedDates.includes(format(date, "yyyy-MM-dd"));
+
+    return newDate ? "highlighted-date" : null;
   };
 
   const handleClickDate = (date) => {
