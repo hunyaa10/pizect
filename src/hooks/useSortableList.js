@@ -49,8 +49,7 @@ const useSortableList = (
     fetchInitialState();
   }, [collectionName, id]);
 
-  // 좌클릭 시 완료표시
-  const handleComplete = async (collectionName, id, workId) => {
+  const handleCompleteList = async (collectionName, id, workId) => {
     const newCheckedState = !isChecked;
     setIsChecked(newCheckedState);
     // works
@@ -91,7 +90,7 @@ const useSortableList = (
     setMenuVisible(true);
   };
 
-  const handleDelete = () => {
+  const handleDeleteList = () => {
     if (workId) {
       handleRemoveFn(workId, id);
     } else {
@@ -126,8 +125,8 @@ const useSortableList = (
       text={text}
       onClick={onClick}
       menuVisible={menuVisible}
-      handleComplete={() => handleComplete(collectionName, id, workId)}
-      handleDelete={handleDelete}
+      handleCompleteList={() => handleCompleteList(collectionName, id, workId)}
+      handleDeleteList={handleDeleteList}
     />
   );
 

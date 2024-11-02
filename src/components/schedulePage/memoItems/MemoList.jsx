@@ -11,7 +11,6 @@ const MemoList = ({
 }) => {
   const [showModal, setShowModal] = useState(false);
 
-  // 모달창 이벤트함수
   const handleOpenModal = () => {
     setShowModal(true);
   };

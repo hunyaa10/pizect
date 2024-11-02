@@ -11,15 +11,13 @@ import useDragEndWorks from "../../hooks/useDragEndWorks";
 
 const Members = () => {
   const { data: datas, setData: setDatas } = useFetchData("works");
+  const sensors = useDragSensors();
+  const handleDragEnd = useDragEndWorks(datas, setDatas, db);
 
   const [showDelModal, setShowDelModal] = useState(false);
   const [memberToDel, setMemberToDel] = useState(null);
 
-  const sensors = useDragSensors();
-  const handleDragEnd = useDragEndWorks(datas, setDatas, db);
-
-  // 팀장변경
-  const handleLeader = async (id) => {
+  const handleLeaderChange = async (id) => {
     const updatedMembers = datas.map((member) => ({
       ...member,
       isLeader: member.id === id ? true : false,
@@ -34,7 +32,6 @@ const Members = () => {
     await batch.commit();
   };
 
-  // 작업추가
   const handleAddWork = async (work, memberId) => {
     if (work.trim()) {
       const member = datas.find((data) => data.id === memberId);
@@ -82,7 +79,6 @@ const Members = () => {
     }
   };
 
-  // 작업삭제
   const handleRemoveWork = async (memberId, listId) => {
     const member = datas.find((data) => data.id === memberId);
     const updatedWorks = member.works.filter((work) => work.id !== listId);
@@ -109,7 +105,6 @@ const Members = () => {
     );
   };
 
-  // 팀원추가
   const handleAddMember = async (name) => {
     if (name.trim()) {
       const newMemberId = datas.length + 1;
@@ -134,7 +129,7 @@ const Members = () => {
   const handleCloseModal = () => {
     setShowDelModal(false);
   };
-  // 팀원삭제
+
   const handleDeleteMember = async () => {
     if (memberToDel) {
       const memberRef = doc(db, "works", memberToDel.id);
@@ -163,7 +158,7 @@ const Members = () => {
             <Member
               data={data}
               setDatas={setDatas}
-              handleLeader={handleLeader}
+              handleLeaderChange={handleLeaderChange}
               handleAddWork={handleAddWork}
               handleRemoveWork={handleRemoveWork}
               handleShowModal={handleShowModal}

@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-
-import PencilIcon from "../../icon/pencil.svg";
 import { useNav } from "../../NavContext";
 import useFetchData from "../../hooks/useFetchData";
 import { UiInput } from "../uiComponents/UiInput";
 import { doc, setDoc } from "firebase/firestore";
 import { db } from "../../firebase";
 
+import PencilIcon from "../../icon/pencil.svg";
+
 const ScheduleHeader = () => {
   const { isShowNav } = useNav();
   const { data, setData } = useFetchData("project_name");
-  // console.log(data[0]);
+
   const [nameInputValue, setNameInputValue] = useState("");
   const [changeInput, setChangeInput] = useState(false);
 

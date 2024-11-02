@@ -2,14 +2,14 @@ import React from "react";
 import styled from "styled-components";
 import MemberBoard from "./MemberBoard";
 import DelToMemberModal from "./DelToMemberModal";
+import InputWork from "./InputWork";
 
 import CrownIcon from "../../icon/crown.svg";
-import InputWork from "./InputWork";
 
 const Member = ({
   data,
   setDatas,
-  handleLeader,
+  handleLeaderChange,
   handleAddWork,
   handleRemoveWork,
   handleShowModal,
@@ -22,7 +22,7 @@ const Member = ({
     <MemberBox>
       <Btn onClick={() => handleShowModal(data)}>제거</Btn>
       <NameBox>
-        <Name onClick={() => handleLeader(data.id)}>{data.name}님</Name>
+        <Name onClick={() => handleLeaderChange(data.id)}>{data.name}님</Name>
         {data.isLeader && <Icon src={CrownIcon} alt="crown-icon" />}
       </NameBox>
       <InputWork handleAddWork={(work) => handleAddWork(work, data.id)} />

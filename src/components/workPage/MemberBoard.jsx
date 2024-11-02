@@ -7,8 +7,6 @@ import styled from "styled-components";
 import WorkList from "./WorkList";
 
 const MemberBoard = ({ id, works, handleRemoveWork, setDatas }) => {
-  // console.log(works);
-
   return (
     <SortableContext
       items={works.map((work) => work.id)}

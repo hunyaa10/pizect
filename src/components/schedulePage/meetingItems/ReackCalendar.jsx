@@ -18,9 +18,6 @@ const ReackCalendar = ({ setCalendarOpen, selectedDate, setSelectedDate }) => {
     setCalendarOpen(false);
   };
 
-  // ❓이벤트버블링으로 인해 달력내부클릭시에도 닫히는 오류 발생
-  // ✅Inner 박스를 하나 더만들어서 stopPropagation적용
-
   return (
     <CalendarWrapper onClick={() => setCalendarOpen(false)}>
       <Inner onClick={(e) => e.stopPropagation()}>

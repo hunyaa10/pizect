@@ -12,8 +12,8 @@ const UiList = ({
   text,
   onClick,
   menuVisible,
-  handleComplete,
-  handleDelete,
+  handleCompleteList,
+  handleDeleteList,
 }) => {
   return (
     <List
@@ -21,7 +21,7 @@ const UiList = ({
       style={sortableStyle}
       onContextMenu={handleContextMenu}
     >
-      <TextBox onClick={onClick || handleComplete}>
+      <TextBox onClick={onClick || handleCompleteList}>
         {date && <Date $isChecked={isChecked}>{date}</Date>}
         <Text $isChecked={isChecked}>{text}</Text>
       </TextBox>
@@ -30,7 +30,7 @@ const UiList = ({
       </MoveIcon>
       {menuVisible && (
         <ContextMenu>
-          <MenuItem onClick={handleDelete}>삭제</MenuItem>
+          <MenuItem onClick={handleDeleteList}>삭제</MenuItem>
         </ContextMenu>
       )}
     </List>
