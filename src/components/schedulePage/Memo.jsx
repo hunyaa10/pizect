@@ -1,5 +1,5 @@
 import { closestCorners, DndContext } from "@dnd-kit/core";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import MemoBoard from "./memoItems/MemoBoard";
 import InputMemo from "./memoItems/InputMemo";
@@ -7,18 +7,15 @@ import useDragSensors from "../../hooks/useDragSensors";
 import useDragEnd from "../../hooks/useDragEnd";
 import { UiTitle } from "../uiComponents/UiTitle";
 import useFetchData from "../../hooks/useFetchData";
-import {
-  addDoc,
-  collection,
-  deleteDoc,
-  doc,
-  getDocs,
-  updateDoc,
-} from "firebase/firestore";
+import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../../firebase";
+import useAddDoc from "../../hooks/useAddDoc";
+import useDeleteDoc from "../../hooks/useDeleteDoc";
 
 const Memo = () => {
   const { data: memos, setData: setMemos } = useFetchData("memos");
+  const addMemo = useAddDoc(db, "memos", setMemos);
+  const deleteMemo = useDeleteDoc(db, "memos", setMemos);
 
   const sensors = useDragSensors();
   const { handleDragEnd } = useDragEnd(memos, setMemos, "memos");
@@ -27,20 +24,14 @@ const Memo = () => {
     if (title.trim() && script.trim()) {
       const maxOrder =
         memos.length > 0 ? Math.max(...memos.map((memo) => memo.order)) : 0;
-      const newMemo = {
-        title,
-        script,
-        order: maxOrder + 1,
-      };
-      const docRef = await addDoc(collection(db, "memos"), newMemo);
+      const newMemo = { title, script, order: maxOrder + 1 };
 
-      setMemos((memos) => [...memos, { id: docRef.id, ...newMemo }]);
+      await addMemo(newMemo);
     }
   };
 
   const handleDeleteMemo = async (id) => {
-    await deleteDoc(doc(db, "memos", id.toString()));
-    setMemos((prev) => prev.filter((memo) => memo.id !== id));
+    await deleteMemo(id);
   };
 
   const handleUpdateMemo = async (id, newTitle, newScript) => {

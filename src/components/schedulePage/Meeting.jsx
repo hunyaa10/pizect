@@ -7,11 +7,14 @@ import useDragSensors from "../../hooks/useDragSensors";
 import useDragEnd from "../../hooks/useDragEnd";
 import { UiTitle } from "../uiComponents/UiTitle";
 import useFetchData from "../../hooks/useFetchData";
-import { addDoc, collection, deleteDoc, doc } from "firebase/firestore";
 import { db } from "../../firebase";
+import useAddDoc from "../../hooks/useAddDoc";
+import useDeleteDoc from "../../hooks/useDeleteDoc";
 
 const Meeting = () => {
   const { data: meets, setData: setMeets } = useFetchData("meetings");
+  const addMeet = useAddDoc(db, "meetings", setMeets);
+  const deleteMeet = useDeleteDoc(db, "meetings", setMeets);
 
   const sensors = useDragSensors();
   const { handleDragEnd } = useDragEnd(meets, setMeets, "meetings");
@@ -20,21 +23,14 @@ const Meeting = () => {
     if (date && text) {
       const maxOrder =
         meets.length > 0 ? Math.max(...meets.map((meet) => meet.order)) : 0;
-      const newMeet = {
-        date,
-        text,
-        isChecked: false,
-        order: maxOrder + 1,
-      };
-      const docRef = await addDoc(collection(db, "meetings"), newMeet);
+      const newMeet = { date, text, isChecked: false, order: maxOrder + 1 };
 
-      setMeets((meets) => [{ id: docRef.id, ...newMeet }, ...meets]);
+      await addMeet(newMeet);
     }
   };
 
   const handleDeleteMeet = async (id) => {
-    await deleteDoc(doc(db, "meetings", id.toString()));
-    setMeets((prev) => prev.filter((meet) => meet.id !== id));
+    await deleteMeet(id);
   };
 
   return (
