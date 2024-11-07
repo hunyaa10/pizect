@@ -4,12 +4,21 @@ const NavContext = createContext();
 
 export const NavProvider = ({ children }) => {
   const [isShowNav, setIsShowNav] = useState(true);
+  const [isVisible, setIsVisible] = useState(true);
 
   const handleHideNav = () => setIsShowNav(false);
   const handleShowNav = () => setIsShowNav(true);
 
   return (
-    <NavContext.Provider value={{ isShowNav, handleHideNav, handleShowNav }}>
+    <NavContext.Provider
+      value={{
+        isShowNav,
+        handleHideNav,
+        handleShowNav,
+        isVisible,
+        setIsVisible,
+      }}
+    >
       {children}
     </NavContext.Provider>
   );

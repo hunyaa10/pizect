@@ -1,8 +1,9 @@
 import React from "react";
 import styled from "styled-components";
-import NavArrow from "./nav/NavArrow";
-import NavLink from "./nav/NavLink";
-import { useNav } from "../NavContext";
+import NavArrow from "./NavArrow";
+import NavLink from "./NavLink";
+import { useNav } from "../../context/NavContext";
+import LogoutForm from "./LogoutForm";
 
 const Nav = () => {
   const { isShowNav, handleHideNav, handleShowNav } = useNav();
@@ -16,6 +17,9 @@ const Nav = () => {
       />
       {isShowNav ? <Logo>PIZECT.</Logo> : <Logo>P</Logo>}
       <NavLink isShowNav={isShowNav} />
+      <LogoutBox>
+        <LogoutForm />
+      </LogoutBox>
     </NavWrapper>
   );
 };
@@ -39,4 +43,10 @@ const Logo = styled.h1`
   font-weight: 700;
   text-align: center;
   color: #3d7685;
+`;
+const LogoutBox = styled.div`
+  position: absolute;
+  bottom: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
 `;

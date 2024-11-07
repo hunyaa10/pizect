@@ -6,14 +6,12 @@ import InputMemo from "./memoItems/InputMemo";
 import useDragSensors from "../../hooks/useDragSensors";
 import useDragEnd from "../../hooks/useDragEnd";
 import { UiTitle } from "../uiComponents/UiTitle";
-import useFetchData from "../../hooks/useFetchData";
 import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../../firebase";
 import useAddDoc from "../../hooks/useAddDoc";
 import useDeleteDoc from "../../hooks/useDeleteDoc";
 
-const Memo = () => {
-  const { data: memos, setData: setMemos } = useFetchData("memos");
+const Memo = ({ memos, setMemos }) => {
   const addMemo = useAddDoc(db, "memos", setMemos);
   const deleteMemo = useDeleteDoc(db, "memos", setMemos);
 

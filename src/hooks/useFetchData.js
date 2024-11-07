@@ -4,6 +4,7 @@ import { db } from "../firebase";
 
 const useFetchData = (collectionName) => {
   const [data, setData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   const fetchData = async () => {
     try {
@@ -18,6 +19,8 @@ const useFetchData = (collectionName) => {
       setData(sortedData);
     } catch (e) {
       console.error(`${collectionName} 데이터를 불러오는데 실패했습니다.`, e);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -25,7 +28,7 @@ const useFetchData = (collectionName) => {
     fetchData();
   }, [collectionName]);
 
-  return { data, setData };
+  return { data, setData, isLoading };
 };
 
 export default useFetchData;

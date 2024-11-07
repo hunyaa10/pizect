@@ -8,7 +8,7 @@ import CalendarIcon from "../../icon/calendar.svg";
 const NavLink = ({ isShowNav }) => {
   return (
     <NavUl>
-      <Link to="/">
+      <Link to="/schedule">
         <NavLi $isshownav={isShowNav}>
           <Icon src={CalendarIcon} alt="calendar-icon" />
           <LiText $isshownav={isShowNav}>일정 및 공지사항</LiText>

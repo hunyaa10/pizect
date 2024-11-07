@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { useNav } from "../../NavContext";
+import { useNav } from "../../context/NavContext";
 import useFetchData from "../../hooks/useFetchData";
 import { UiInput } from "../uiComponents/UiInput";
 import { doc, setDoc } from "firebase/firestore";

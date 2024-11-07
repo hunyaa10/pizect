@@ -6,14 +6,11 @@ import InputMeet from "./meetingItems/InputMeet";
 import useDragSensors from "../../hooks/useDragSensors";
 import useDragEnd from "../../hooks/useDragEnd";
 import { UiTitle } from "../uiComponents/UiTitle";
-import useFetchData from "../../hooks/useFetchData";
 import { db } from "../../firebase";
 import useAddDoc from "../../hooks/useAddDoc";
 import useDeleteDoc from "../../hooks/useDeleteDoc";
 
-const Meeting = () => {
-  const { data: meets, setData: setMeets } = useFetchData("meetings");
-
+const Meeting = ({ meets, setMeets }) => {
   const addMeet = useAddDoc(db, "meetings", setMeets);
   const deleteMeet = useDeleteDoc(db, "meetings", setMeets);
 

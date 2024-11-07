@@ -1,7 +1,7 @@
 import React from "react";
 import Members from "../components/workPage/Members";
 import styled from "styled-components";
-import { useNav } from "../NavContext";
+import { useNav } from "../context/NavContext";
 
 const Works = () => {
   const { isShowNav } = useNav();

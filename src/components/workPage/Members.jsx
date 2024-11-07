@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import useDragSensors from "../../hooks/useDragSensors";
 import styled from "styled-components";
 import { closestCorners, DndContext } from "@dnd-kit/core";
@@ -8,14 +8,29 @@ import { deleteDoc, doc, setDoc, writeBatch } from "firebase/firestore";
 import { db } from "../../firebase";
 import useFetchData from "../../hooks/useFetchData";
 import useDragEndWorks from "../../hooks/useDragEndWorks";
+import LoadingData from "../LoadingData";
 
 const Members = () => {
-  const { data: datas, setData: setDatas } = useFetchData("works");
+  const {
+    data: datas,
+    setData: setDatas,
+    isLoading: isLoadingData,
+  } = useFetchData("works");
   const sensors = useDragSensors();
   const handleDragEnd = useDragEndWorks(datas, setDatas, db);
 
   const [showDelModal, setShowDelModal] = useState(false);
   const [memberToDel, setMemberToDel] = useState(null);
+  const [isAllFetch, setIsAllFetch] = useState(false);
+
+  useEffect(() => {
+    if (!isLoadingData) {
+      const loadingTime = setTimeout(() => {
+        setIsAllFetch(true);
+      }, 1500);
+      return () => clearTimeout(loadingTime);
+    }
+  }, [isLoadingData]);
 
   const handleLeaderChange = async (id) => {
     const updatedMembers = datas.map((member) => ({
@@ -143,33 +158,39 @@ const Members = () => {
 
   return (
     <>
-      <MemberHeader
-        names={datas.map((data) => data.name)}
-        handleAddMember={handleAddMember}
-      />
-      <Container>
-        {datas.map((data) => (
-          <DndContext
-            key={data.id}
-            sensors={sensors}
-            collisionDetection={closestCorners}
-            onDragEnd={(e) => handleDragEnd(e, data.id)}
-          >
-            <Member
-              data={data}
-              setDatas={setDatas}
-              handleLeaderChange={handleLeaderChange}
-              handleAddWork={handleAddWork}
-              handleRemoveWork={handleRemoveWork}
-              handleShowModal={handleShowModal}
-              showDelModal={showDelModal}
-              memberToDel={memberToDel}
-              handleCloseModal={handleCloseModal}
-              handleDeleteMember={handleDeleteMember}
-            />
-          </DndContext>
-        ))}
-      </Container>
+      {isAllFetch ? (
+        <>
+          <MemberHeader
+            names={datas.map((data) => data.name)}
+            handleAddMember={handleAddMember}
+          />
+          <Container>
+            {datas.map((data) => (
+              <DndContext
+                key={data.id}
+                sensors={sensors}
+                collisionDetection={closestCorners}
+                onDragEnd={(e) => handleDragEnd(e, data.id)}
+              >
+                <Member
+                  data={data}
+                  setDatas={setDatas}
+                  handleLeaderChange={handleLeaderChange}
+                  handleAddWork={handleAddWork}
+                  handleRemoveWork={handleRemoveWork}
+                  handleShowModal={handleShowModal}
+                  showDelModal={showDelModal}
+                  memberToDel={memberToDel}
+                  handleCloseModal={handleCloseModal}
+                  handleDeleteMember={handleDeleteMember}
+                />
+              </DndContext>
+            ))}
+          </Container>
+        </>
+      ) : (
+        <LoadingData />
+      )}
     </>
   );
 };
