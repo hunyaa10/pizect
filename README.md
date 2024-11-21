@@ -1,12 +1,17 @@
-# PIZECT\_피젝트
-
-팀원들끼리 일정 및 업무를 공유할 수 있는 사이트를 만들었습니다.
+<![스크린샷 2024-11-21 223416](https://github.com/user-attachments/assets/9efa24be-a237-4455-ba34-44620f34c6e5)
+div align="center">
+  <h1>
+    <img src='https://github.com/user-attachments/assets/8a21c23e-c46c-4dd1-9be0-f6cb7b2b651a' display='inline' width='24px'/>
+    PIZECT_피젝트
+  </h1>
+  <br />
+</div>
 
 ## 🌟프로젝트개요
 
 - 프로젝트 형태 : 개인 프로젝트
 - 프로젝트 기간 : 2024.10.23 ~ 2024.11.10
-- 프로젝트 목적 : 일정 및 업무를 공유할 수 있는 사이트 구현
+- 프로젝트 목적 : 팀원들의 일정 및 업무를 공유할 수 있는 사이트 구현
 
 ## 🔨기술 스택
 
