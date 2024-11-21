@@ -9,9 +9,7 @@ export const AuthProvider = ({ children }) => {
   const navigate = useNavigate();
   const [userData, setUserData] = useState(null);
 
-  // 로그인함수
   const handleGoogleLogin = () => {
-    // provider 구글 설정
     const provider = new GoogleAuthProvider();
     // 팝업창으로 로그인
     signInWithPopup(auth, provider)
@@ -22,7 +20,6 @@ export const AuthProvider = ({ children }) => {
       .catch((error) => console.log("로그인 실패: ", error));
   };
 
-  // 로그아웃함수
   const handleLogout = () => {
     signOut(auth)
       .then(() => {
