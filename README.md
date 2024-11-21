@@ -1,5 +1,5 @@
-<![스크린샷 2024-11-21 223416](https://github.com/user-attachments/assets/9efa24be-a237-4455-ba34-44620f34c6e5)
-div align="center">
+![스크린샷 2024-11-21 223416](https://github.com/user-attachments/assets/9efa24be-a237-4455-ba34-44620f34c6e5)
+<div align="center">
   <h1>
     <img src='https://github.com/user-attachments/assets/8a21c23e-c46c-4dd1-9be0-f6cb7b2b651a' display='inline' width='24px'/>
     PIZECT_피젝트
@@ -39,3 +39,9 @@ div align="center">
 - 팀원 추가 시 새로운 보드 생성
 - 팀원이름 클릭 시 팀장변경가능
 - 좌측메뉴 슬라이드 애니메이션 적용
+
+## 📃페이지
+<div>
+  <img src='https://github.com/user-attachments/assets/62450788-3086-45c9-9f26-8c14da850640' width='400px' display='inline'/>
+  <img src='https://github.com/user-attachments/assets/3d678676-2968-4a9f-81f5-e5b0274b1fda' width='400px' display='inline'/>
+</div>
