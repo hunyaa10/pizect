@@ -1,4 +1,5 @@
-![스크린샷 2024-11-21 223416](https://github.com/user-attachments/assets/9efa24be-a237-4455-ba34-44620f34c6e5)
+![스크린샷 2024-11-23 220953](https://github.com/user-attachments/assets/9138a968-f777-4524-9184-2a402714e019)
+
 <div align="center">
   <h1>
     <img src='https://github.com/user-attachments/assets/8a21c23e-c46c-4dd1-9be0-f6cb7b2b651a' display='inline' width='24px'/>
