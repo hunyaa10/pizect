@@ -18,9 +18,11 @@ const LoginForm = () => {
         구글로그인하기
       </GoogleLoginBtn>
       <ScriptBox>
-        <Script>개인프로젝트</Script>
-        <Script>하수현</Script>
-        <Script>hunyaa10@gmail.com</Script>
+        파이어베이스를 공부하면서 만든 개인프로젝트입니다.
+        <br />
+        개발자 : 하수현
+        <br />
+        이메일 : hunyaa10@gmail.com
       </ScriptBox>
     </Wrapper>
   );
@@ -41,7 +43,7 @@ const Wrapper = styled.div`
 
 const TextBox = styled.div`
   margin-bottom: 2rem;
-  font-size: 1.2rem;
+  font-size: 1.4rem;
   font-weight: 500;
   letter-spacing: 1px;
   color: #f3f7f8;
@@ -80,5 +82,5 @@ const ScriptBox = styled.div`
   color: #f3f7f8;
   line-height: 1.7;
   text-align: center;
+  font-size: 1.2rem;
 `;
-const Script = styled.p``;
