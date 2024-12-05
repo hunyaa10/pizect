@@ -54,7 +54,8 @@ Firebase를 사용하여 데이터를 관리하고, dnd-kit를 활용해 목록 
 
 ## 📃페이지 미리보기
 <div>
-  <img src='https://github.com/user-attachments/assets/b9cc637a-fc56-464e-9905-135d0610dfc8' width='350px' display='inline'/>
-  <img src='https://github.com/user-attachments/assets/5facea03-46ab-4b5f-b288-cb96c7b2d535' width='350px' display='inline'/>
-  <img src='https://github.com/user-attachments/assets/2d9bf787-430b-4f54-b08e-2a6dba888fa8' width='350px' display='inline'/>
+  <img src='https://github.com/user-attachments/assets/b9cc637a-fc56-464e-9905-135d0610dfc8' width='400px' display='inline'/>
+  <img src='https://github.com/user-attachments/assets/2d9bf787-430b-4f54-b08e-2a6dba888fa8' width='400px' display='inline'/>
+  <img src='https://github.com/user-attachments/assets/5facea03-46ab-4b5f-b288-cb96c7b2d535' width='400px' display='inline'/>
+  <img src='https://github.com/user-attachments/assets/68f5bfd5-e2ce-43cd-b1e2-97c11e6a2957' width='400px' display='inline'/>
 </div>
