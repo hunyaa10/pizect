@@ -50,7 +50,13 @@ const Members = styled.div`
   align-items: flex-end;
   gap: 2rem;
 `;
-const Member = styled.p``;
+const Member = styled.p`
+  font-size: 1.2rem;
+
+  @media (max-width: 1440px) {
+    font-size: 1rem;
+  }
+`;
 const Form = styled.form`
   width: fit-content;
   display: flex;

@@ -37,7 +37,7 @@ const InputMemo = ({ handleAddMemo }) => {
           placeholder="메모를 입력하세요"
         />
       </InputBox>
-      <UiBtn type="submit" margin="1rem 0 0 2rem">
+      <UiBtn type="submit" margin="1rem 0 0 2rem" fontSize="1.1rem">
         공지등록하기
       </UiBtn>
     </Form>
@@ -61,9 +61,13 @@ const InputBox = styled.div`
   justify-content: space-between;
 `;
 const Label = styled.label`
-  font-size: 0.9rem;
+  font-size: 1.2rem;
   font-weight: 500;
   color: #3d7685;
+
+  @media (max-width: 1440px) {
+    font-size: 0.9rem;
+  }
 `;
 const Textarea = styled.textarea`
   width: 90%;
@@ -77,5 +81,12 @@ const Textarea = styled.textarea`
   }
   &::placeholder {
     color: #ccc;
+    font-size: 1rem;
+  }
+
+  @media (max-width: 1440px) {
+    &::placeholder {
+      font-size: 0.8rem;
+    }
   }
 `;

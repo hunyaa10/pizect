@@ -36,10 +36,21 @@ const Script = styled.p`
   -moz-user-select: text;
   -ms-user-select: text;
   user-select: text;
+  font-size: 1.2rem;
+
+  @media (max-width: 1440px) {
+    font-size: 0.9rem;
+  }
 `;
 
 const ModifyTextarea = styled.textarea`
   width: 100%;
-  height: 300px;
+  height: 400px;
   padding: 0.5rem;
+  font-size: 1rem;
+
+  @media (max-width: 1440px) {
+    height: 300px;
+    font-size: 0.8rem;
+  }
 `;

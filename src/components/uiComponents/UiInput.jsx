@@ -32,12 +32,15 @@ const Input = styled.input`
   padding: 0.5rem;
   border: 1px solid #c2cfd2;
   border-radius: 0.25rem;
+  font-size: 1.3rem;
+
   &:focus {
     outline: none;
     border: 1px solid #61797f;
   }
   &::placeholder {
     color: #ccc;
+    font-size: 1rem;
   }
   &[readOnly] {
     cursor: pointer;
@@ -45,6 +48,13 @@ const Input = styled.input`
     border: 1px solid #bdd8df;
     &::placeholder {
       color: #fff;
+    }
+  }
+
+  @media (max-width: 1440px) {
+    font-size: 0.8rem;
+    &::placeholder {
+      font-size: 0.8rem;
     }
   }
 `;

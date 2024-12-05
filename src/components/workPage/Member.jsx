@@ -61,12 +61,16 @@ const NameBox = styled.div`
   gap: 0.5rem;
 `;
 const Name = styled.h3`
-  font-size: 1.1rem;
+  font-size: 1.3rem;
   letter-spacing: 1px;
   color: #2f4f57;
   cursor: pointer;
   &:hover {
     opacity: 0.8;
+  }
+
+  @media (max-width: 1440px) {
+    font-size: 1.1rem;
   }
 `;
 const Icon = styled.img`
@@ -76,10 +80,14 @@ const Btn = styled.button`
   position: absolute;
   top: 1rem;
   right: 1rem;
-  font-size: 0.8rem;
+  font-size: 1rem;
   color: #a8a8a8;
   opacity: 0.7;
   &:hover {
     opacity: 1;
+  }
+
+  @media (max-width: 1440px) {
+    font-size: 0.8rem;
   }
 `;

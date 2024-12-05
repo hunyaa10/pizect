@@ -6,6 +6,7 @@ import { UiInput } from "../uiComponents/UiInput";
 import { doc, setDoc } from "firebase/firestore";
 import { db } from "../../firebase";
 
+import LogoIcon from "../../icon/logo.svg";
 import PencilIcon from "../../icon/pencil.svg";
 
 const ScheduleHeader = () => {
@@ -36,7 +37,7 @@ const ScheduleHeader = () => {
 
   return (
     <Header>
-      <Logo $isshownav={isShowNav}>PIZECT.</Logo>
+      <Logo src={LogoIcon} alt="logo" $isshownav={isShowNav} />
       <NameBox onSubmit={handleChangeProjectName}>
         {changeInput ? (
           <UiInput
@@ -67,11 +68,13 @@ const Header = styled.header`
   align-items: center;
   justify-content: space-between;
 `;
-const Logo = styled.h1`
-  font-size: 2rem;
-  font-weight: 700;
-  color: #3d7685;
+const Logo = styled.img`
+  width: 180px;
   opacity: ${({ $isshownav }) => ($isshownav ? "0" : "1")};
+
+  @media (max-width: 1440px) {
+    width: 120px;
+  }
 `;
 const NameBox = styled.form`
   display: flex;
@@ -79,16 +82,23 @@ const NameBox = styled.form`
   gap: 0.5rem;
 `;
 const PjName = styled.h2`
-  font-size: 1.5rem;
+  font-size: 2rem;
   color: #3d7685;
+
+  @media (max-width: 1440px) {
+    font-size: 1.5rem;
+  }
 `;
-const PjInput = styled.input``;
-const Btn = styled.button``;
+
 const Icon = styled.img`
   cursor: pointer;
-  width: 1.5rem;
+  width: 2.5rem;
   opacity: 0.5;
   &:hover {
     opacity: 0.7;
+  }
+
+  @media (max-width: 1440px) {
+    width: 1.5rem;
   }
 `;

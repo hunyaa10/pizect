@@ -35,11 +35,15 @@ const ModifyBtn = styled.button`
   visibility: ${({ $isChangeInput }) =>
     $isChangeInput ? "hidden" : "visible"};
   color: #666;
-  font-size: 0.9rem;
+  font-size: 1.2rem;
   font-weight: 500;
   opacity: 0.7;
   &:hover {
     opacity: 1;
+  }
+
+  @media (max-width: 1440px) {
+    font-size: 0.9rem;
   }
 `;
 const CloseBtn = styled.button`
@@ -49,5 +53,9 @@ const CloseBtn = styled.button`
   }
 `;
 const Icon = styled.img`
-  width: 24px;
+  width: 32px;
+
+  @media (max-width: 1440px) {
+    width: 24px;
+  }
 `;

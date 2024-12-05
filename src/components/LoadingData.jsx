@@ -29,7 +29,7 @@ const Wrapper = styled.div`
   transition: 0.5s;
 `;
 const Icon = styled.img`
-  width: 32px;
+  width: 56px;
   animation: rotate 2s linear infinite;
 
   @keyframes rotate {
@@ -39,5 +39,9 @@ const Icon = styled.img`
     100% {
       transform: rotateY(360deg);
     }
+  }
+
+  @media (max-width: 1440px) {
+    width: 32px;
   }
 `;

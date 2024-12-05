@@ -70,14 +70,23 @@ const TextBox = styled.div`
   }
 `;
 const Text = styled.p`
+  font-size: 1.3rem;
   text-decoration: ${({ $isChecked }) =>
     $isChecked ? "line-through" : "none"};
   color: ${({ $isChecked }) => ($isChecked ? "#ccc" : "#333")};
+
+  @media (max-width: 1440px) {
+    font-size: 1rem;
+  }
 `;
 const Date = styled.span`
-  font-size: 0.8rem;
+  font-size: 1.1rem;
   font-weight: 600;
   color: ${({ $isChecked }) => ($isChecked ? "#ccc" : "#666")};
+
+  @media (max-width: 1440px) {
+    font-size: 0.8rem;
+  }
 `;
 const ContextMenu = styled.div`
   position: absolute;

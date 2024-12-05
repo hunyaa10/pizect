@@ -33,9 +33,13 @@ const NavUl = styled.ul`
   flex-direction: column;
 `;
 const Icon = styled.img`
-  width: 1.5rem;
+  width: 2rem;
   transition: 0.3s;
   opacity: 0.8;
+
+  @media (max-width: 1440px) {
+    width: 1.5rem;
+  }
 `;
 const NavLi = styled.li`
   padding: ${({ $isshownav }) => ($isshownav ? "1rem" : "1rem 0")};
@@ -44,7 +48,7 @@ const NavLi = styled.li`
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  font-size: 0.9rem;
+  font-size: 1.2rem;
   font-weight: 500;
 
   &:hover {
@@ -52,6 +56,10 @@ const NavLi = styled.li`
       transform: translateY(-2px);
       opacity: 1;
     }
+  }
+
+  @media (max-width: 1440px) {
+    font-size: 0.8rem;
   }
 `;
 const LiText = styled.p`

@@ -7,7 +7,7 @@ const UiBtn = ({
   margin = "0",
   padding = "0.25rem 0.5rem",
   $bgcolor = "#3d7685",
-  fontSize = "0.8rem",
+  fontSize = "1rem",
 }) => {
   return (
     <Btn
@@ -39,5 +39,9 @@ const Btn = styled.button`
   opacity: 0.9;
   &:hover {
     opacity: 1;
+  }
+
+  @media (max-width: 1440px) {
+    font-size: 0.8rem;
   }
 `;

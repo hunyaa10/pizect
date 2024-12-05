@@ -11,13 +11,16 @@ const LogoutForm = () => {
 export default LogoutForm;
 
 // style
-const Icon = styled.img``;
 const LogoutBtn = styled.button`
-  font-size: 0.8rem;
+  font-size: 1.2rem;
   font-weight: 600;
   color: #3d7685;
   opacity: 0.8;
   &:hover {
     opacity: 1;
+  }
+
+  @media (max-width: 1440px) {
+    font-size: 0.8rem;
   }
 `;

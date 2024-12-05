@@ -4,18 +4,20 @@ import { useAuth } from "../../context/AuthContext";
 import { Link } from "react-router-dom";
 import UiBtn from "../uiComponents/UiBtn";
 
+import LogoIcon from "../../icon/logo.svg";
+
 const MainInsert = () => {
   const { userData } = useAuth();
   // console.log(userData);
   return (
     <Wrapper>
       <Inner>
-        <Logo>PIZECT.</Logo>
+        <Logo src={LogoIcon} alt="logo" />
         <Text>
           <UserName>{userData?.displayName}</UserName>님, 환영합니다!
         </Text>
         <Link to="/schedule">
-          <UiBtn padding="0.5rem 1rem" fontSize="1.2rem">
+          <UiBtn padding="0.5rem 1rem" fontSize="1.7rem">
             런토프로젝트 보러가기
           </UiBtn>
         </Link>
@@ -46,18 +48,29 @@ const Inner = styled.div`
   justify-content: center;
   gap: 2rem;
 `;
-const Logo = styled.h1`
-  font-size: 2rem;
-  font-weight: 700;
-  color: #3d7685;
+const Logo = styled.img`
+  width: 300px;
+
+  @media (max-width: 1440px) {
+    width: 200px;
+  }
 `;
 const Text = styled.p`
-  font-size: 1.1rem;
+  margin-bottom: 3rem;
+  font-size: 1.5rem;
   font-weight: 500;
   letter-spacing: 1px;
+
+  @media (max-width: 1440px) {
+    font-size: 1.1rem;
+  }
 `;
 const UserName = styled.span`
-  font-size: 1.3rem;
+  font-size: 2rem;
   font-weight: 600;
   color: #3d7685;
+
+  @media (max-width: 1440px) {
+    font-size: 1.5rem;
+  }
 `;

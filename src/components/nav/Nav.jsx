@@ -5,6 +5,9 @@ import NavLink from "./NavLink";
 import { useNav } from "../../context/NavContext";
 import LogoutForm from "./LogoutForm";
 
+import LogoIcon from "../../icon/logo.svg";
+import LogoPIcon from "../../icon/logo_p.svg";
+
 const Nav = () => {
   const { isShowNav, handleHideNav, handleShowNav } = useNav();
 
@@ -15,7 +18,11 @@ const Nav = () => {
         handleHideNav={handleHideNav}
         handleShowNav={handleShowNav}
       />
-      {isShowNav ? <Logo>PIZECT.</Logo> : <Logo>P</Logo>}
+      {isShowNav ? (
+        <Logo src={LogoIcon} alt="logo" />
+      ) : (
+        <LogoP src={LogoPIcon} alt="logo-p" />
+      )}
       <NavLink isShowNav={isShowNav} />
       <LogoutBox>
         <LogoutForm />
@@ -37,12 +44,17 @@ const NavWrapper = styled.nav`
   left: 0;
   transition: 0.5s;
 `;
-const Logo = styled.h1`
-  margin: 2rem 0;
-  font-size: 2rem;
-  font-weight: 700;
-  text-align: center;
-  color: #3d7685;
+const Logo = styled.img`
+  margin: 4rem auto;
+  width: 180px;
+
+  @media (max-width: 1440px) {
+    margin: 3rem auto;
+    width: 120px;
+  }
+`;
+const LogoP = styled(Logo)`
+  width: 20px;
 `;
 const LogoutBox = styled.div`
   position: absolute;
