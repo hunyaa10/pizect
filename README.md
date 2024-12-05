@@ -1,4 +1,4 @@
-![스크린샷 2024-11-23 220953](https://github.com/user-attachments/assets/9138a968-f777-4524-9184-2a402714e019)
+![스크린샷 2024-12-05 190510](https://github.com/user-attachments/assets/77eef8c8-baf5-4ae1-9f31-5c0929be1957)
 
 <div align="center">
   <h1>
@@ -54,6 +54,7 @@ Firebase를 사용하여 데이터를 관리하고, dnd-kit를 활용해 목록 
 
 ## 📃페이지 미리보기
 <div>
-  <img src='https://github.com/user-attachments/assets/62450788-3086-45c9-9f26-8c14da850640' width='400px' display='inline'/>
-  <img src='https://github.com/user-attachments/assets/3d678676-2968-4a9f-81f5-e5b0274b1fda' width='400px' display='inline'/>
+  <img src='https://github.com/user-attachments/assets/b9cc637a-fc56-464e-9905-135d0610dfc8' width='350px' display='inline'/>
+  <img src='https://github.com/user-attachments/assets/5facea03-46ab-4b5f-b288-cb96c7b2d535' width='350px' display='inline'/>
+  <img src='https://github.com/user-attachments/assets/2d9bf787-430b-4f54-b08e-2a6dba888fa8' width='350px' display='inline'/>
 </div>
