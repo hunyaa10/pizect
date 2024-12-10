@@ -1,4 +1,4 @@
-![스크린샷 2024-12-05 190510](https://github.com/user-attachments/assets/77eef8c8-baf5-4ae1-9f31-5c0929be1957)
+![스크린샷 2024-12-10 230319](https://github.com/user-attachments/assets/41e06f30-9ccb-41d4-9fb1-337bc24baf60)
 
 <div align="center">
   <h1>
